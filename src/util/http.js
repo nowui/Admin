@@ -40,7 +40,7 @@ export default function http(config) {
         }
         response.json().then(function (json) {
           if (json.code == 200) {
-            config.success(json.data);
+            config.success(json);
           } else {
             message.error(json.message);
           }
@@ -48,7 +48,7 @@ export default function http(config) {
           config.complete();
         })
       }).catch(function (error) {
-
+        config.complete();
       });
 
       return request;
