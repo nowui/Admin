@@ -6,6 +6,7 @@ export default {
   scrollHeight: function () {
     return document.documentElement.clientHeight - 310 - (document.documentElement.clientHeight - 310) % 51;
   },
+  pageSize: 10,
   action: '操作',
   search: '搜索',
   add: '新增',

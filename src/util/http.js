@@ -42,14 +42,12 @@ export default function http(config) {
           if (json.code == 200) {
             config.success(json);
           } else {
-            message.error(json.message);
+            message.error("系统出现错误");
           }
 
           config.complete();
         })
       }).catch(function (error) {
-        console.log(error);
-
         config.complete();
       });
 
