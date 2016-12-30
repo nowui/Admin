@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'dva';
+import QueueAnim from 'rc-queue-anim';
 import {Row, Col, Button, Form, Input, Table, Popconfirm, message} from 'antd';
 
 import ProductDetail from './ProductDetail';
@@ -35,7 +36,7 @@ class ProductIndex extends Component {
     toast = message.loading(constant.load, 0);
 
     request = http({
-      url: 'product/list',
+      url: 'code/list',
       data: {
         product_name: '',
         page: 1,
@@ -89,7 +90,8 @@ class ProductIndex extends Component {
         <span>
           <a onClick={this.handleEdit.bind(this, record.product_id)}>{constant.edit}</a>
           <span className={style.divider}/>
-          <Popconfirm title={constant.popconfirmTitle} okText={constant.popconfirmOK} cancelText={constant.popconfirmCancel} onConfirm={this.handleDel.bind(this, record.product_id)}>
+          <Popconfirm title={constant.popconfirmTitle} okText={constant.popconfirmOK}
+                      cancelText={constant.popconfirmCancel} onConfirm={this.handleDel.bind(this, record.product_id)}>
             <a>{constant.del}</a>
           </Popconfirm>
         </span>
@@ -105,38 +107,42 @@ class ProductIndex extends Component {
     }
 
     return (
-      <div className={style.layoutMain}>
-        <Row className={style.layoutMainHeader}>
-          <Col span={8}>
-            <h1>商品列表</h1>
-          </Col>
-          <Col span={16} className={style.layoutMainHeaderMenu}>
-            <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton}>{constant.search}</Button>
-            <Button type="primary" icon="plus-circle" size="default" onClick={this.handleAdd.bind(this)}>{constant.add}</Button>
-          </Col>
-        </Row>
-        <Form className={style.layoutMainSearch}>
-          <Row>
+      <QueueAnim>
+        <div key="0" className={style.layoutMain}>
+          <Row className={style.layoutMainHeader}>
             <Col span={8}>
-              <FormItem label="产品名称" hasFeedback {...constant.formItemLayout} className={style.formItem}>
-                {getFieldDecorator('product_name', {
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder="请输入产品名称" className={style.formItemInput}/>
-                )}
-              </FormItem>
+              <h1>商品列表</h1>
             </Col>
-            <Col span={8}>
-            </Col>
-            <Col span={8}>
+            <Col span={16} className={style.layoutMainHeaderMenu}>
+              <Button type="default" icon="search" size="default"
+                      className={style.layoutMainHeaderMenuButton}>{constant.search}</Button>
+              <Button type="primary" icon="plus-circle" size="default"
+                      onClick={this.handleAdd.bind(this)}>{constant.add}</Button>
             </Col>
           </Row>
-        </Form>
-        <Table columns={columns} dataSource={data} scroll={{y: constant.scrollHeight()}} bordered/>
-        <ProductDetail>
+          <Form className={style.layoutMainSearch}>
+            <Row>
+              <Col span={8}>
+                <FormItem label="产品名称" hasFeedback {...constant.formItemLayout} className={style.formItem}>
+                  {getFieldDecorator('product_name', {
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder="请输入产品名称" className={style.formItemInput}/>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+              </Col>
+              <Col span={8}>
+              </Col>
+            </Row>
+          </Form>
+          <Table columns={columns} dataSource={data} scroll={{y: constant.scrollHeight()}} bordered/>
+          <ProductDetail>
 
-        </ProductDetail>
-      </div>
+          </ProductDetail>
+        </div>
+      </QueueAnim>
     );
   }
 }

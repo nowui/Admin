@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'dva';
-import {Row, Col, Button, Form, Input, Table, Popconfirm, message} from 'antd';
+import QueueAnim from 'rc-queue-anim';
+import {Row, Col, Button, Form, Input, Table, message} from 'antd';
 
 import constant from '../../constant/constant';
 import http from '../../util/http';
@@ -96,7 +97,7 @@ class CodeIndex extends Component {
     const {getFieldDecorator} = this.props.form;
 
     const columns = [{
-      title: '数据库表明',
+      title: '数据库表名',
       dataIndex: 'table_name'
     }, {
       width: 100,
@@ -110,34 +111,37 @@ class CodeIndex extends Component {
     }];
 
     return (
-      <div className={style.layoutMain}>
-        <Row className={style.layoutMainHeader}>
-          <Col span={8}>
-            <h1>代码生成</h1>
-          </Col>
-          <Col span={16} className={style.layoutMainHeaderMenu}>
-            <Button type="default" icon="search" size="default" onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
-          </Col>
-        </Row>
-        <Form className={style.layoutMainSearch}>
-          <Row>
+      <QueueAnim>
+        <div key="0" className={style.layoutMain}>
+          <Row className={style.layoutMainHeader}>
             <Col span={8}>
-              <FormItem label="数据库表明" hasFeedback {...constant.formItemLayout} className={style.formItem}>
-                {getFieldDecorator('table_name', {
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder="请输入数据库表明" className={style.formItemInput}/>
-                )}
-              </FormItem>
+              <h1>代码生成</h1>
             </Col>
-            <Col span={8}>
-            </Col>
-            <Col span={8}>
+            <Col span={16} className={style.layoutMainHeaderMenu}>
+              <Button type="default" icon="search" size="default"
+                      onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
             </Col>
           </Row>
-        </Form>
-        <Table columns={columns} dataSource={this.props.code.list} scroll={{y: constant.scrollHeight()}} bordered/>
-      </div>
+          <Form className={style.layoutMainSearch}>
+            <Row>
+              <Col span={8}>
+                <FormItem label="数据库表名" hasFeedback {...constant.formItemLayout} className={style.formItem}>
+                  {getFieldDecorator('table_name', {
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder="请输入数据库表明" className={style.formItemInput}/>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={8}>
+              </Col>
+              <Col span={8}>
+              </Col>
+            </Row>
+          </Form>
+          <Table columns={columns} dataSource={this.props.code.list} scroll={{y: constant.scrollHeight()}} bordered/>
+        </div>
+      </QueueAnim>
     );
   }
 }

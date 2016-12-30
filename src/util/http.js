@@ -24,9 +24,9 @@ export default function http(config) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'token': 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE0ODE5OTE3MjIsImV4cCI6MTQ4MzAzMDk1MSwiYXV0aG9yaXphdGlvbl9pZCI6ImY0YmE2Y2IzMjc2MzRiN2VhMjBmMDMzMjljNWQ3MDhjIiwidXNlcl9pZCI6IjAwZTYwMGEwYTdkZTRkMTU4MDk4ZTU0OTgyNjA4NTk4In0.IB2q8Ii6QBSIpvnNFkliDxPLhEwwp1WxAxPcmasMGVh2le8vlgakakrianr4xOZ1u7LeTVzGdWzI6CJ5kcrajg',
-      'platform': 'WEB',
-      'version': '1.0.0'
+      'Token': 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE0ODE5OTE3MjIsImV4cCI6MTQ4MzAzMDk1MSwiYXV0aG9yaXphdGlvbl9pZCI6ImY0YmE2Y2IzMjc2MzRiN2VhMjBmMDMzMjljNWQ3MDhjIiwidXNlcl9pZCI6IjAwZTYwMGEwYTdkZTRkMTU4MDk4ZTU0OTgyNjA4NTk4In0.IB2q8Ii6QBSIpvnNFkliDxPLhEwwp1WxAxPcmasMGVh2le8vlgakakrianr4xOZ1u7LeTVzGdWzI6CJ5kcrajg',
+      'Platform': 'WEB',
+      'Version': '1.0.0'
     },
     method: 'POST',
     body: JSON.stringify(config.data)
@@ -48,6 +48,8 @@ export default function http(config) {
           config.complete();
         })
       }).catch(function (error) {
+        console.log(error);
+
         config.complete();
       });
 

@@ -7,7 +7,7 @@ import CodeIndex from './view/code/CodeIndex';
 function RouterConfig({history}) {
   return (
     <Router history={history}>
-      <Route path="/">
+      <Route path="/" ignoreScrollBehavior>
         <IndexRedirect to="code/index"/>
         <Route component={Main}>
           <Route path="product/index" component={ProductIndex}/>
