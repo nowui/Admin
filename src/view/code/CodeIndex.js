@@ -32,6 +32,11 @@ class CodeIndex extends Component {
       return;
     }
 
+    this.props.dispatch({
+      type: 'code/load',
+      data: {}
+    });
+
     toast = message.loading(constant.load, 0);
 
     request = http({
@@ -118,8 +123,7 @@ class CodeIndex extends Component {
               <h1>代码生成</h1>
             </Col>
             <Col span={16} className={style.layoutMainHeaderMenu}>
-              <Button type="default" icon="search" size="default"
-                      onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
+              <Button type="default" icon="search" size="default" loading={this.props.code.loading} onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
             </Col>
           </Row>
           <Form className={style.layoutMainSearch}>

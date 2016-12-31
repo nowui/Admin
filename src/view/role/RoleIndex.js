@@ -19,7 +19,7 @@ class RoleIndex extends Component {
   }
 
   componentDidMount() {
-    this.handLoad(1);
+    this.handleSearch();
   }
 
   componentWillUnmount() {
@@ -29,9 +29,14 @@ class RoleIndex extends Component {
   }
 
   handLoad(index) {
-    if (this.props.role.loading) {
+    if (this.props.role.is_load) {
       return;
     }
+
+    this.props.dispatch({
+      type: 'role/load',
+      data: {}
+    });
 
     toast = message.loading(constant.load, 0);
 
@@ -64,11 +69,14 @@ class RoleIndex extends Component {
   }
 
   handleSearch() {
-
+    this.handLoad(1);
   }
 
   handleAdd() {
-
+    this.props.dispatch({
+      type: 'role/add',
+      data: {}
+    });
   }
 
   handleEdit() {
@@ -110,7 +118,7 @@ class RoleIndex extends Component {
               <h1>角色列表</h1>
             </Col>
             <Col span={16} className={style.layoutMainHeaderMenu}>
-              <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton} onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
+              <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton} loading={this.props.role.is_load} onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
               <Button type="primary" icon="plus-circle" size="default" onClick={this.handleAdd.bind(this)}>{constant.add}</Button>
             </Col>
           </Row>
