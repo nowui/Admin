@@ -8,8 +8,8 @@ import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
 
-let request;
 let toast;
+let request;
 
 class RoleIndex extends Component {
   constructor(props) {
@@ -23,9 +23,13 @@ class RoleIndex extends Component {
   }
 
   componentWillUnmount() {
-    request.cancel();
+    if (typeof(toast) != 'undefined') {
+      toast();
+    }
 
-    toast();
+    if (typeof(request) != 'undefined') {
+      request.cancel();
+    }
   }
 
   handLoad(index) {
@@ -118,19 +122,24 @@ class RoleIndex extends Component {
               <h1>角色列表</h1>
             </Col>
             <Col span={16} className={style.layoutMainHeaderMenu}>
-              <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton} loading={this.props.role.is_load} onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
-              <Button type="primary" icon="plus-circle" size="default" onClick={this.handleAdd.bind(this)}>{constant.add}</Button>
+              <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton}
+                      loading={this.props.role.is_load}
+                      onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
+              <Button type="primary" icon="plus-circle" size="default"
+                      onClick={this.handleAdd.bind(this)}>{constant.add}</Button>
             </Col>
           </Row>
           <Form className={style.layoutMainSearch}>
             <Row>
               <Col span={8}>
-                <FormItem label="产品名称" hasFeedback {...constant.formItemLayout} className={style.formItem}>
-                  {getFieldDecorator('role_name', {
-                    initialValue: ''
-                  })(
-                    <Input type="text" placeholder="请输入产品名称" className={style.formItemInput}/>
-                  )}
+                <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="产品名称">
+                  {
+                    getFieldDecorator('role_name', {
+                      initialValue: ''
+                    })(
+                      <Input type="text" placeholder="请输入产品名称" className={style.formItemInput}/>
+                    )
+                  }
                 </FormItem>
               </Col>
               <Col span={8}>
@@ -140,7 +149,7 @@ class RoleIndex extends Component {
             </Row>
           </Form>
           <Table columns={columns} dataSource={this.props.role.list} scroll={{y: constant.scrollHeight()}} bordered/>
-          <RoleDetail>
+          <RoleDetail action={'save'}>
 
           </RoleDetail>
         </div>
