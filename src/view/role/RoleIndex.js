@@ -23,22 +23,32 @@ class RoleIndex extends Component {
   }
 
   componentWillUnmount() {
-    if (typeof(toast) != 'undefined') {
-      toast();
-    }
+    toast();
 
-    if (typeof(request) != 'undefined') {
-      request.cancel();
-    }
+    request.cancel();
   }
 
-  handLoad(index) {
+  handleSearch() {
+    let role_name = this.props.form.getFieldValue('role_name');
+    let page_index = 1;
+
+    this.handLoad(role_name, page_index);
+  }
+
+  handReload() {
+    let role_name = this.props.role.role_name;
+    let page_index = this.props.role.page_index;
+
+    this.handLoad(role_name, page_index);
+  }
+
+  handLoad(role_name, page_index) {
     if (this.props.role.is_load) {
       return;
     }
 
     this.props.dispatch({
-      type: 'role/load',
+      type: 'role/start',
       data: {}
     });
 
@@ -47,33 +57,30 @@ class RoleIndex extends Component {
     request = http({
       url: 'role/list',
       data: {
-        role_name: '',
-        page_index: index,
+        role_name: role_name,
+        page_index: page_index,
         page_size: constant.pageSize
       },
       success: function (data) {
         this.props.dispatch({
           type: 'role/list',
           data: {
-            total: data.total,
+            role_name: role_name,
             list: data.list,
-            page_index: index
+            total: data.total,
+            page_index: page_index
           }
         });
       }.bind(this),
       complete: function () {
         this.props.dispatch({
-          type: 'role/complete',
+          type: 'role/finish',
           data: {}
         });
 
         toast();
       }.bind(this)
     }).post();
-  }
-
-  handleSearch() {
-    this.handLoad(1);
   }
 
   handleAdd() {
@@ -84,7 +91,14 @@ class RoleIndex extends Component {
   }
 
   handleEdit() {
-    console.log(this.props.role);
+    if (this.props.role.is_load) {
+      return;
+    }
+
+    this.props.dispatch({
+      type: 'role/edit',
+      data: {}
+    });
   }
 
   handleDel() {
@@ -149,7 +163,7 @@ class RoleIndex extends Component {
             </Row>
           </Form>
           <Table columns={columns} dataSource={this.props.role.list} scroll={{y: constant.scrollHeight()}} bordered/>
-          <RoleDetail action={'save'}>
+          <RoleDetail handReload={this.handReload.bind(this)}>
 
           </RoleDetail>
         </div>

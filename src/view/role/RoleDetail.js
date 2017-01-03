@@ -21,20 +21,38 @@ class RoleDetail extends Component {
   }
 
   componentWillUnmount() {
-    if (typeof(toast) != 'undefined') {
-      toast();
-    }
 
-    if (typeof(request) != 'undefined') {
-      request.cancel();
-    }
   }
 
-  handleCancel() {
+  handLoad(index) {
+    if (this.props.role.is_load) {
+      return;
+    }
+
     this.props.dispatch({
-      type: 'role/cancel',
+      type: 'role/start',
       data: {}
     });
+
+    toast = message.loading(constant.load, 0);
+
+    request = http({
+      url: 'role/get',
+      data: {
+        role_id: this.props.role.role_id
+      },
+      success: function (data) {
+
+      }.bind(this),
+      complete: function () {
+        this.props.dispatch({
+          type: 'role/finish',
+          data: {}
+        });
+
+        toast();
+      }.bind(this)
+    }).post();
   }
 
   handleSubmit() {
@@ -48,21 +66,21 @@ class RoleDetail extends Component {
       }
 
       this.props.dispatch({
-        type: 'role/' + this.props.action,
+        type: 'role/start',
         data: {}
       });
 
       toast = message.loading(constant.load, 0);
 
       request = http({
-        url: 'role/' + this.props.action,
+        url: 'role/' + this.props.role.action,
         data: values,
         success: function (data) {
-
+          this.props.handReload();
         }.bind(this),
         complete: function () {
           this.props.dispatch({
-            type: 'role/complete',
+            type: 'role/finish',
             data: {}
           });
 
@@ -70,6 +88,23 @@ class RoleDetail extends Component {
         }.bind(this)
       }).post();
     });
+  }
+
+  handleCancel() {
+    if (typeof(toast) != 'undefined') {
+      toast();
+    }
+
+    if (typeof(request) != 'undefined') {
+      request.cancel();
+    }
+
+    this.props.dispatch({
+      type: 'role/close',
+      data: {}
+    });
+
+    this.props.form.resetFields();
   }
 
   render() {
@@ -80,8 +115,11 @@ class RoleDetail extends Component {
       <Modal title={'角色表单'} maskClosable={false} width={constant.detailWidth}
              visible={this.props.role.is_modal} onCancel={this.handleCancel.bind(this)}
              footer={[
-               <Button key="back" type="ghost" size="default" icon="cross-circle"onClick={this.handleCancel.bind(this)}>关闭</Button>,
-               <Button key="submit" type="primary" size="default" icon="check-circle" onClick={this.handleSubmit.bind(this)}>确定</Button>
+               <Button key="back" type="ghost" size="default" icon="cross-circle"
+                       onClick={this.handleCancel.bind(this)}>关闭</Button>,
+               <Button key="submit" type="primary" size="default" icon="check-circle"
+                       loading={this.props.role.is_load}
+                       onClick={this.handleSubmit.bind(this)}>确定</Button>
              ]}
       >
         <Row>
@@ -126,7 +164,8 @@ class RoleDetail extends Component {
                   }],
                   initialValue: 0
                 })(
-                  <InputNumber type="text" className={style.formItemInput}  placeholder={constant.placeholder + '排序'} min={0} max={999}/>
+                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '排序'}
+                               min={0} max={999}/>
                 )
               }
             </FormItem>
@@ -138,7 +177,7 @@ class RoleDetail extends Component {
 }
 
 RoleDetail.propTypes = {
-  action: React.PropTypes.string.isRequired
+  handReload: React.PropTypes.func.isRequired
 };
 
 RoleDetail = Form.create({})(RoleDetail);

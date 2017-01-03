@@ -5,13 +5,17 @@ export default {
   state: {
     is_load: false,
     is_modal: false,
-    total: 0,
+    action: '',
+    role_id: '',
+    role_name: '',
+    item: {},
     list: [],
-    page_index: 1,
+    total: 0,
+    page_index: 1
   },
 
   reducers: {
-    load(state, action) {
+    start(state, action) {
       return {
         ...state, ...{
           is_load: true
@@ -30,25 +34,27 @@ export default {
     add(state, action) {
       return {
         ...state, ...{
-          is_modal: true
+          is_modal: true,
+          action: 'save'
         }
       };
     },
     edit(state, action) {
       return {
         ...state, ...{
-          is_modal: true
+          is_modal: true,
+          action: 'update'
         }
       };
     },
-    cancel(state, action) {
+    close(state, action) {
       return {
         ...state, ...{
           is_modal: false
         }
       };
     },
-    complete(state, action) {
+    finish(state, action) {
       return {
         ...state, ...{
           is_load: false
