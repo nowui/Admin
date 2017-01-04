@@ -133,7 +133,7 @@ class RoleIndex extends Component {
         <div key="0" className={style.layoutMain}>
           <Row className={style.layoutMainHeader}>
             <Col span={8}>
-              <h1>角色列表</h1>
+              <h1>商品列表</h1>
             </Col>
             <Col span={16} className={style.layoutMainHeaderMenu}>
               <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton}
