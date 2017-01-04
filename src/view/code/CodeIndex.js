@@ -117,16 +117,17 @@ class CodeIndex extends Component {
 
     return (
       <QueueAnim>
-        <div key="0" className={style.layoutMain}>
-          <Row className={style.layoutMainHeader}>
+        <div key="0">
+          <Row className={style.layoutContentHeader}>
             <Col span={8}>
               <h1>代码生成</h1>
             </Col>
-            <Col span={16} className={style.layoutMainHeaderMenu}>
-              <Button type="default" icon="search" size="default" loading={this.props.code.loading} onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
+            <Col span={16} className={style.layoutContentHeaderMenu}>
+              <Button type="default" icon="search" size="default" loading={this.props.code.loading}
+                      onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
             </Col>
           </Row>
-          <Form className={style.layoutMainSearch}>
+          <Form className={style.layoutContentHeaderSearch}>
             <Row>
               <Col span={8}>
                 <FormItem label="数据库表名" hasFeedback {...constant.formItemLayout} className={style.formItem}>

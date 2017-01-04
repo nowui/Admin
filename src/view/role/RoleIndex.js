@@ -130,20 +130,20 @@ class RoleIndex extends Component {
 
     return (
       <QueueAnim>
-        <div key="0" className={style.layoutMain}>
-          <Row className={style.layoutMainHeader}>
+        <div key="0">
+          <Row className={style.layoutContentHeader}>
             <Col span={8}>
-              <h1>商品列表</h1>
+              <h1>角色列表</h1>
             </Col>
-            <Col span={16} className={style.layoutMainHeaderMenu}>
-              <Button type="default" icon="search" size="default" className={style.layoutMainHeaderMenuButton}
+            <Col span={16} className={style.layoutContentHeaderMenu}>
+              <Button type="default" icon="search" size="default" className={style.layoutContentHeaderMenuButton}
                       loading={this.props.role.is_load}
                       onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
               <Button type="primary" icon="plus-circle" size="default"
                       onClick={this.handleAdd.bind(this)}>{constant.add}</Button>
             </Col>
           </Row>
-          <Form className={style.layoutMainSearch}>
+          <Form className={style.layoutContentHeaderSearch}>
             <Row>
               <Col span={8}>
                 <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="产品名称">
