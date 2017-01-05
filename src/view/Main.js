@@ -28,13 +28,13 @@ class Main extends Component {
   }
 
   render() {
-    const {Header, Sider, Content} = Layout;
+    const {Header, Sider, Content, Footer} = Layout;
     const SubMenu = Menu.SubMenu;
 
     return (
       <Layout>
         <Sider
-          trigger={null}
+          onCollapse={this.handleToggle.bind(this)}
           collapsible
           collapsed={this.state.collapsed}
         >
@@ -90,10 +90,13 @@ class Main extends Component {
             </Badge>
             <Link to=''><Icon type="poweroff" className={style.logout}/></Link>
           </Header>
-          <Content style={{height: document.documentElement.clientHeight - 60 - 17 - 15}}
+          <Content style={{height: document.documentElement.clientHeight - 60 - 20 - 20}}
                    className={style.layoutContent}>
             {this.props.children}
           </Content>
+          <Footer className={style.layoutFooter}>
+            Copyright ©2017 Created by Shanghai Star Channel IT Co.,LTD
+          </Footer>
         </Layout>
       </Layout>
     );
