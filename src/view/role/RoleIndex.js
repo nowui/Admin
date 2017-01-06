@@ -47,43 +47,50 @@ class RoleIndex extends Component {
       return;
     }
 
+    toast = message.loading(constant.load, 0);
+
     this.props.dispatch({
       type: 'role/start',
       data: {}
     });
 
-    toast = message.loading(constant.load, 0);
-
     request = http({
-      url: 'role/list',
+      url: 'role/admin/list',
       data: {
         role_name: role_name,
         page_index: page_index,
         page_size: constant.pageSize
       },
-      success: function (data) {
+      success: function (json) {
+        for(let i = 0; i < json.data.length; i++) {
+          json.data[i].key = json.data[i].role_id;
+        }
+
         this.props.dispatch({
           type: 'role/list',
           data: {
             role_name: role_name,
-            list: data.list,
-            total: data.total,
+            total: json.data.total,
+            list: json.data,
             page_index: page_index
           }
         });
       }.bind(this),
       complete: function () {
+        toast();
+
         this.props.dispatch({
           type: 'role/finish',
           data: {}
         });
-
-        toast();
       }.bind(this)
     }).post();
   }
 
   handleAdd() {
+    console.log(this.props.role.item);
+    return;
+
     this.props.dispatch({
       type: 'role/add',
       data: {}

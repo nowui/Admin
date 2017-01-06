@@ -10,7 +10,7 @@ export default {
   scrollHeight: function () {
     return document.documentElement.clientHeight - 310 - (document.documentElement.clientHeight - 310) % 51;
   },
-  timeout: 300,
+  timeout: 500,
   duration: 0.3,
   pageSize: 10,
   action: '操作',

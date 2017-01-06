@@ -6,6 +6,7 @@ import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
 
+let toast;
 let request;
 
 class RoleDetail extends Component {
@@ -28,6 +29,8 @@ class RoleDetail extends Component {
       return;
     }
 
+    toast = message.loading(constant.load, 0);
+
     this.props.dispatch({
       type: 'role/start',
       data: {}
@@ -42,6 +45,8 @@ class RoleDetail extends Component {
 
       }.bind(this),
       complete: function () {
+        toast();
+
         this.props.dispatch({
           type: 'role/finish',
           data: {}
@@ -60,6 +65,8 @@ class RoleDetail extends Component {
         return;
       }
 
+      toast = message.loading(constant.load, 0);
+
       this.props.dispatch({
         type: 'role/start',
         data: {}
@@ -76,6 +83,8 @@ class RoleDetail extends Component {
           }.bind(this), constant.timeout);
         }.bind(this),
         complete: function () {
+          toast();
+
           this.props.dispatch({
             type: 'role/finish',
             data: {}
@@ -86,6 +95,10 @@ class RoleDetail extends Component {
   }
 
   handleCancel() {
+    if (typeof(toast) != 'undefined') {
+      toast();
+    }
+
     if (typeof(request) != 'undefined') {
       request.cancel();
     }
