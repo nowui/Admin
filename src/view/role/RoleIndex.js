@@ -62,7 +62,7 @@ class RoleIndex extends Component {
         page_size: constant.pageSize
       },
       success: function (json) {
-        for(let i = 0; i < json.data.length; i++) {
+        for (let i = 0; i < json.data.length; i++) {
           json.data[i].key = json.data[i].role_id;
         }
 
@@ -88,9 +88,6 @@ class RoleIndex extends Component {
   }
 
   handleAdd() {
-    console.log(this.props.role.item);
-    return;
-
     this.props.dispatch({
       type: 'role/add',
       data: {}
@@ -98,18 +95,51 @@ class RoleIndex extends Component {
   }
 
   handleEdit() {
-    if (this.props.role.is_load) {
-      return;
-    }
-
-    this.props.dispatch({
-      type: 'role/edit',
-      data: {}
-    });
+    console.log(this.refs.detail);
   }
 
   handleDel() {
 
+  }
+
+  handleSubmit(values) {
+    if (this.props.role.is_load) {
+      return;
+    }
+
+    toast = message.loading(constant.load, 0);
+
+    this.props.dispatch({
+      type: 'role/start',
+      data: {}
+    });
+
+    request = http({
+      url: 'role/' + this.props.role.action,
+      data: values,
+      success: function (data) {
+        this.handleCancel();
+
+        setTimeout(function () {
+          this.handReload();
+        }.bind(this), constant.timeout);
+      }.bind(this),
+      complete: function () {
+        toast();
+
+        this.props.dispatch({
+          type: 'role/finish',
+          data: {}
+        });
+      }.bind(this)
+    }).post();
+  }
+
+  handleCancel() {
+    this.props.dispatch({
+      type: 'role/close',
+      data: {}
+    });
   }
 
   render() {
@@ -170,9 +200,11 @@ class RoleIndex extends Component {
             </Row>
           </Form>
           <Table columns={columns} dataSource={this.props.role.list} scroll={{y: constant.scrollHeight()}} bordered/>
-          <RoleDetail handReload={this.handReload.bind(this)}>
-
-          </RoleDetail>
+          <RoleDetail is_load={this.props.role.is_load}
+                      is_modal={this.props.role.is_modal}
+                      handleSubmit={this.handleSubmit.bind(this)}
+                      handleCancel={this.handleCancel.bind(this)}
+                      ref="detail"/>
         </div>
       </QueueAnim>
     );
