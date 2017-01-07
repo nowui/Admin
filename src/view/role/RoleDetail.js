@@ -31,8 +31,6 @@ class RoleDetail extends Component {
 
   handleCancel() {
     this.props.handleCancel();
-
-    this.props.form.resetFields();
   }
 
   render() {
@@ -40,7 +38,7 @@ class RoleDetail extends Component {
     const {getFieldDecorator} = this.props.form;
 
     return (
-      <Modal title={'角色表单'} maskClosable={false} width={constant.detailWidth}
+      <Modal title={'角色表单'} maskClosable={false} width={constant.detail_width}
              visible={this.props.is_modal} onCancel={this.handleCancel.bind(this)}
              footer={[
                <Button key="back" type="ghost" size="default" icon="cross-circle"

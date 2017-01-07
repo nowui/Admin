@@ -85,6 +85,7 @@ class Main extends Component {
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.handleToggle.bind(this)}
             />
+            <Link to=''><Icon type="user" className={style.user}/></Link>
             <Badge count={5} className={style.notification}>
               <Link to=''><Icon type="notification" className={style.notificationMessage}/></Link>
             </Badge>

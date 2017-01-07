@@ -8,21 +8,21 @@ export default {
     wrapperCol: {span: 18}
   },
   scrollHeight: function () {
-    return document.documentElement.clientHeight - 310 - (document.documentElement.clientHeight - 310) % 51;
+    return document.documentElement.clientHeight - 340 - (document.documentElement.clientHeight - 340) % 51;
   },
   timeout: 500,
   duration: 0.3,
-  pageSize: 10,
+  page_size: 10,
   action: '操作',
   search: '搜索',
-  add: '新增',
-  edit: '修改',
-  del: '删除',
+  save: '新增',
+  update: '修改',
+  delete: '删除',
   load: '正在加载中..',
-  detailWidth: 1000,
-  popconfirmTitle: '删除将无法恢复, 您确定要继续吗?',
-  popconfirmOK: '确定',
-  popconfirmCancel: '取消',
+  detail_width: 1000,
+  popconfirm_title: '删除将无法恢复, 您确定要继续吗?',
+  popconfirm_ok: '确定',
+  popconfirm_cancel: '取消',
   required: '不能为空',
   placeholder: '请输入'
 };

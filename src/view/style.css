@@ -1,5 +1,5 @@
 .divider {
-  margin: 0 15px;
+  margin: 0 10px;
   display: inline-block;
   height: 8px;
   width: 1px;
@@ -33,6 +33,14 @@
   padding: 0 16px;
   cursor: pointer;
   transition: color .3s;
+}
+
+.user {
+  position: absolute;
+  font-size: 20px;
+  top: 18px;
+  right: 118px;
+  color: #595959;
 }
 
 .notification {
