@@ -3,6 +3,8 @@ import {connect} from 'dva';
 import QueueAnim from 'rc-queue-anim';
 import {Row, Col, Button, Form, Input, Table, Popconfirm, message} from 'antd';
 
+import CategoryDetail from './CategoryDetail';
+import CategoryTree from './CategoryTree';
 import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
@@ -10,7 +12,7 @@ import style from '../style.css';
 let toast;
 let request;
 
-class CodeIndex extends Component {
+class CategoryIndex extends Component {
   constructor(props) {
     super(props);
 
@@ -27,19 +29,19 @@ class CodeIndex extends Component {
   }
 
   handleSearch() {
-    let code_name = this.props.form.getFieldValue('code_name');
+    let category_name = this.props.form.getFieldValue('category_name');
     let page_index = 1;
 
-    this.handList(code_name, page_index);
+    this.handList(category_name, page_index);
   }
 
   handLoad(page_index) {
-    let code_name = this.props.code.code_name;
+    let category_name = this.props.category.category_name;
 
-    this.handList(code_name, page_index);
+    this.handList(category_name, page_index);
   }
 
-  handList(code_name, page_index) {
+  handList(category_name, page_index) {
     if (this.handleStart({
         is_load: true
       })) {
@@ -47,21 +49,21 @@ class CodeIndex extends Component {
     }
 
     request = http({
-      url: 'code/list',
+      url: 'category/admin/list',
       data: {
-        code_name: code_name,
+        category_name: category_name,
         page_index: page_index,
-        page_size: this.props.code.page_size
+        page_size: this.props.category.page_size
       },
       success: function (json) {
         for (let i = 0; i < json.data.length; i++) {
-          json.data[i].key = json.data[i].table_name;
+          json.data[i].key = json.data[i].category_id;
         }
 
         this.props.dispatch({
-          type: 'code/fetch',
+          type: 'category/fetch',
           data: {
-            code_name: code_name,
+            category_name: category_name,
             total: json.total,
             list: json.data,
             page_index: page_index
@@ -76,30 +78,31 @@ class CodeIndex extends Component {
 
   handSave() {
     this.props.dispatch({
-      type: 'code/fetch',
+      type: 'category/fetch',
       data: {
-        is_modal: true,
+        is_detail: true,
         action: 'save'
       }
     });
   }
 
-  handUpdate(table_name) {
+  handUpdate(category_id) {
     if (this.handleStart({
         is_load: true,
-        is_modal: true,
-        action: 'update'
+        is_detail: true,
+        action: 'update',
+        category_id: category_id
       })) {
       return;
     }
 
     request = http({
-      url: 'code/save',
+      url: 'category/find',
       data: {
-        table_name: table_name
+        category_id: category_id
       },
       success: function (json) {
-
+        this.refs.detail.setFieldsValue(json.data);
       }.bind(this),
       complete: function () {
         this.handleFinish();
@@ -107,7 +110,30 @@ class CodeIndex extends Component {
     }).post();
   }
 
-  handleDelete(code_id) {
+  handTree(category_id) {
+    if (this.handleStart({
+        is_load: true,
+        is_tree: true,
+        category_id: category_id
+      })) {
+      return;
+    }
+
+    request = http({
+      url: 'category/find',
+      data: {
+        category_id: category_id
+      },
+      success: function (json) {
+        this.refs.detail.setFieldsValue(json.data);
+      }.bind(this),
+      complete: function () {
+        this.handleFinish();
+      }.bind(this)
+    }).post();
+  }
+
+  handleDelete(category_id) {
     if (this.handleStart({
         is_load: true
       })) {
@@ -115,13 +141,13 @@ class CodeIndex extends Component {
     }
 
     request = http({
-      url: 'code/delete',
+      url: 'category/delete',
       data: {
-        code_id: code_id
+        category_id: category_id
       },
       success: function (json) {
         setTimeout(function () {
-          this.handLoad(this.props.code.page_index);
+          this.handLoad(this.props.category.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -137,18 +163,18 @@ class CodeIndex extends Component {
       return;
     }
 
-    if (this.props.code.action == 'update') {
-      data.code_id = this.props.code.code_id;
+    if (this.props.category.action == 'update') {
+      data.category_id = this.props.category.category_id;
     }
 
     request = http({
-      url: 'code/' + this.props.code.action,
+      url: 'category/' + this.props.category.action,
       data: data,
       success: function (json) {
         this.handleCancel();
 
         setTimeout(function () {
-          this.handLoad(this.props.code.page_index);
+          this.handLoad(this.props.category.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -159,22 +185,31 @@ class CodeIndex extends Component {
 
   handleCancel() {
     this.props.dispatch({
-      type: 'code/fetch',
+      type: 'category/fetch',
       data: {
-        is_modal: false
+        is_detail: false
       }
     });
 
     this.refs.detail.resetFields();
   }
 
+  handleTreeCancel() {
+    this.props.dispatch({
+      type: 'category/fetch',
+      data: {
+        is_tree: false
+      }
+    });
+  }
+
   handleStart(data) {
-    if (this.props.code.is_load) {
+    if (this.props.category.is_load) {
       return true;
     }
 
     this.props.dispatch({
-      type: 'code/fetch',
+      type: 'category/fetch',
       data: data
     });
 
@@ -187,7 +222,7 @@ class CodeIndex extends Component {
     toast();
 
     this.props.dispatch({
-      type: 'code/fetch',
+      type: 'category/fetch',
       data: {
         is_load: false
       }
@@ -196,7 +231,7 @@ class CodeIndex extends Component {
 
   handleChangeSize(page_index, page_size) {
     this.props.dispatch({
-      type: 'code/fetch',
+      type: 'category/fetch',
       data: {
         page_size: page_size
       }
@@ -212,23 +247,30 @@ class CodeIndex extends Component {
     const {getFieldDecorator} = this.props.form;
 
     const columns = [{
-      title: '数据库名称',
-      dataIndex: 'table_name'
+      title: '名称',
+      dataIndex: 'category_name'
     }, {
-      width: 90,
+      width: 135,
       title: constant.action,
       dataIndex: '',
       render: (text, record, index) => (
         <span>
-          <a onClick={this.handUpdate.bind(this, record.table_name)}>执行</a>
+          <a onClick={this.handUpdate.bind(this, record.category_id)}>{constant.update}</a>
+          <span className={style.divider}/>
+          <a onClick={this.handTree.bind(this, record.category_id)}>树型</a>
+          <span className={style.divider}/>
+          <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
+                      cancelText={constant.popconfirm_cancel} onConfirm={this.handleDelete.bind(this, record.category_id)}>
+            <a>{constant.delete}</a>
+          </Popconfirm>
         </span>
       )
     }];
 
     const pagination = {
-      total: this.props.code.total,
-      current: this.props.code.page_index,
-      pageSize: this.props.code.page_size,
+      total: this.props.category.total,
+      current: this.props.category.page_index,
+      pageSize: this.props.category.page_size,
       showSizeChanger: true,
       onShowSizeChange: this.handleChangeSize.bind(this),
       onChange: this.handLoad.bind(this)
@@ -239,11 +281,11 @@ class CodeIndex extends Component {
         <div key="0">
           <Row className={style.layoutContentHeader}>
             <Col span={8}>
-              <h1>角色列表</h1>
+              <h1>分类列表</h1>
             </Col>
             <Col span={16} className={style.layoutContentHeaderMenu}>
               <Button type="default" icon="search" size="default" className={style.layoutContentHeaderMenuButton}
-                      loading={this.props.code.is_load}
+                      loading={this.props.category.is_load}
                       onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
               <Button type="primary" icon="plus-circle" size="default"
                       onClick={this.handSave.bind(this)}>{constant.save}</Button>
@@ -252,12 +294,12 @@ class CodeIndex extends Component {
           <Form className={style.layoutContentHeaderSearch}>
             <Row>
               <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="产品名称">
+                <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="名称">
                   {
-                    getFieldDecorator('code_name', {
+                    getFieldDecorator('category_name', {
                       initialValue: ''
                     })(
-                      <Input type="text" placeholder="请输入产品名称" className={style.formItemInput}/>
+                      <Input type="text" placeholder="请输入名称" className={style.formItemInput}/>
                     )
                   }
                 </FormItem>
@@ -268,17 +310,27 @@ class CodeIndex extends Component {
               </Col>
             </Row>
           </Form>
-          <Table columns={columns} dataSource={this.props.code.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <Table className={style.layoutContentHeaderTable} columns={columns} dataSource={this.props.category.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <CategoryDetail is_load={this.props.category.is_load}
+                          is_detail={this.props.category.is_detail}
+                          handleSubmit={this.handleSubmit.bind(this)}
+                          handleCancel={this.handleCancel.bind(this)}
+                          ref="detail"/>
+          <CategoryTree is_load={this.props.category.is_load}
+                        is_tree={this.props.category.is_tree}
+                        handleSubmit={this.handleSubmit.bind(this)}
+                        handleCancel={this.handleTreeCancel.bind(this)}
+                        />
         </div>
       </QueueAnim>
     );
   }
 }
 
-CodeIndex.propTypes = {};
+CategoryIndex.propTypes = {};
 
-CodeIndex = Form.create({})(CodeIndex);
+CategoryIndex = Form.create({})(CategoryIndex);
 
-export default connect(({code}) => ({
-  code,
-}))(CodeIndex);
+export default connect(({category}) => ({
+  category,
+}))(CategoryIndex);

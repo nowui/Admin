@@ -109,7 +109,14 @@
   background: #f8f8f8;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
-  margin-bottom: 15px;
+}
+
+.layoutContentHeaderTable {
+  margin-top: 15px;
+}
+
+.paddingBottom {
+  padding-bottom: 15px;
 }
 
 .layoutFooter {

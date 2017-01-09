@@ -2,14 +2,15 @@ import constant from '../constant/constant';
 
 export default {
 
-  namespace: 'role',
+  namespace: 'category',
 
   state: {
     is_load: false,
     is_detail: false,
+    is_tree: false,
     action: '',
-    role_id: '',
-    role_name: '',
+    category_id: '',
+    category_name: '',
     list: [],
     total: 0,
     page_index: 1,

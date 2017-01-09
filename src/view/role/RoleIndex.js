@@ -79,7 +79,7 @@ class RoleIndex extends Component {
     this.props.dispatch({
       type: 'role/fetch',
       data: {
-        is_modal: true,
+        is_detail: true,
         action: 'save'
       }
     });
@@ -88,7 +88,7 @@ class RoleIndex extends Component {
   handUpdate(role_id) {
     if (this.handleStart({
         is_load: true,
-        is_modal: true,
+        is_detail: true,
         action: 'update',
         role_id: role_id
       })) {
@@ -163,7 +163,7 @@ class RoleIndex extends Component {
     this.props.dispatch({
       type: 'role/fetch',
       data: {
-        is_modal: false
+        is_detail: false
       }
     });
 
@@ -197,8 +197,6 @@ class RoleIndex extends Component {
   }
 
   handleChangeSize(page_index, page_size) {
-    console.log('Current: ', page_index, '; PageSize: ', page_size);
-
     this.props.dispatch({
       type: 'role/fetch',
       data: {
@@ -279,7 +277,7 @@ class RoleIndex extends Component {
           </Form>
           <Table columns={columns} dataSource={this.props.role.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
           <RoleDetail is_load={this.props.role.is_load}
-                      is_modal={this.props.role.is_modal}
+                      is_detail={this.props.role.is_detail}
                       handleSubmit={this.handleSubmit.bind(this)}
                       handleCancel={this.handleCancel.bind(this)}
                       ref="detail"/>

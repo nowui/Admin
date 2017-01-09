@@ -1,37 +1,24 @@
+import constant from '../constant/constant';
+
 export default {
 
   namespace: 'code',
 
   state: {
-    loading: false,
-    total: 0,
+    is_load: false,
+    is_detail: false,
+    action: '',
+    code_id: '',
+    code_name: '',
     list: [],
+    total: 0,
     page_index: 1,
+    page_size: constant.page_size
   },
 
   reducers: {
-    load(state, action) {
-      return {
-        ...state, ...{
-          loading: true
-        }
-      };
-    },
-    list(state, action) {
-      return {
-        ...state, ...{
-          total: action.data.total,
-          list: action.data.list,
-          page_index: action.data.page_index
-        }
-      };
-    },
-    complete(state, action) {
-      return {
-        ...state, ...{
-          loading: false
-        }
-      };
+    fetch(state, action) {
+      return { ...state, ...action.data };
     }
   }
 

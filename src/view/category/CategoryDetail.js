@@ -4,7 +4,7 @@ import {Modal, Form, Row, Col, Button, Input, InputNumber} from 'antd';
 import constant from '../../constant/constant';
 import style from '../style.css';
 
-class RoleDetail extends Component {
+class CategoryDetail extends Component {
   constructor(props) {
     super(props);
 
@@ -38,7 +38,7 @@ class RoleDetail extends Component {
     const {getFieldDecorator} = this.props.form;
 
     return (
-      <Modal title={'角色表单'} maskClosable={false} width={constant.detail_width}
+      <Modal title={'分类表单'} maskClosable={false} width={constant.detail_width}
              visible={this.props.is_detail} onCancel={this.handleCancel.bind(this)}
              footer={[
                <Button key="back" type="ghost" size="default" icon="cross-circle"
@@ -50,16 +50,16 @@ class RoleDetail extends Component {
       >
         <Row>
           <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="名称">
+            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类名称">
               {
-                getFieldDecorator('role_name', {
+                getFieldDecorator('category_name', {
                   rules: [{
                     required: true,
                     message: constant.required
                   }],
                   initialValue: ''
                 })(
-                  <Input type="text" placeholder={constant.placeholder + '名称'}/>
+                  <Input type="text" placeholder={constant.placeholder + '分类名称'}/>
                 )
               }
             </FormItem>
@@ -67,12 +67,12 @@ class RoleDetail extends Component {
         </Row>
         <Row>
           <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="键值">
+            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类键值">
               {
-                getFieldDecorator('role_key', {
+                getFieldDecorator('category_key', {
                   initialValue: ''
                 })(
-                  <Input type="text" placeholder={constant.placeholder + '键值'}/>
+                  <Input type="text" placeholder={constant.placeholder + '分类键值'}/>
                 )
               }
             </FormItem>
@@ -80,17 +80,42 @@ class RoleDetail extends Component {
         </Row>
         <Row>
           <Col span={8}>
-            <FormItem {...constant.formItemLayoutDetail} className={style.formItem} label="排序">
+            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类数值">
               {
-                getFieldDecorator('role_sort', {
+                getFieldDecorator('category_value', {
+                  initialValue: ''
+                })(
+                  <Input type="text" placeholder={constant.placeholder + '分类数值'}/>
+                )
+              }
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={8}>
+            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类描述">
+              {
+                getFieldDecorator('category_description', {
+                  initialValue: ''
+                })(
+                  <Input type="text" placeholder={constant.placeholder + '分类描述'}/>
+                )
+              }
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={8}>
+            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类排序">
+              {
+                getFieldDecorator('category_sort', {
                   rules: [{
-                    type: 'number',
                     required: true,
                     message: constant.required
                   }],
                   initialValue: 0
                 })(
-                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '排序'}
+                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '分类排序'}
                                min={0} max={999}/>
                 )
               }
@@ -102,13 +127,13 @@ class RoleDetail extends Component {
   }
 }
 
-RoleDetail.propTypes = {
+CategoryDetail.propTypes = {
   is_load: React.PropTypes.bool.isRequired,
   is_detail: React.PropTypes.bool.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
   handleCancel: React.PropTypes.func.isRequired
 };
 
-RoleDetail = Form.create({})(RoleDetail);
+CategoryDetail = Form.create({})(CategoryDetail);
 
-export default RoleDetail;
+export default CategoryDetail;
