@@ -4,8 +4,8 @@ export default {
     wrapperCol: {span: 17}
   },
   formItemLayoutDetail: {
-    labelCol: {span: 6},
-    wrapperCol: {span: 18}
+    labelCol: {span: 7},
+    wrapperCol: {span: 17}
   },
   scrollHeight: function () {
     return document.documentElement.clientHeight - 340 - (document.documentElement.clientHeight - 340) % 51;
@@ -25,7 +25,7 @@ export default {
   success: '操作成功',
   error: '网络错误',
   detail_width: 1000,
-  popconfirm_title: '您确定要删除这条数据吗?',
+  popconfirm_title: '您确定要删除该数据吗?',
   popconfirm_ok: '确定',
   popconfirm_cancel: '取消',
   required: '不能为空',

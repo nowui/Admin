@@ -5,6 +5,7 @@ import CodeIndex from './view/code/CodeIndex';
 import ProductIndex from './view/product/ProductIndex';
 import RoleIndex from './view/role/RoleIndex';
 import CategoryIndex from './view/category/CategoryIndex';
+import AdminIndex from './view/admin/AdminIndex';
 
 function RouterConfig({history}) {
   return (
@@ -16,6 +17,7 @@ function RouterConfig({history}) {
           <Route path="product/index" component={ProductIndex}/>
           <Route path="role/index" component={RoleIndex}/>
           <Route path="category/index" component={CategoryIndex}/>
+          <Route path="admin/index" component={AdminIndex}/>
         </Route>
       </Route>
     </Router>

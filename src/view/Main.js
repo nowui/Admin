@@ -51,7 +51,7 @@ class Main extends Component {
                 <Menu.Item key="1"><Link to="role/index">商品列表</Link></Menu.Item>
                 <Menu.Item key="2"><Link to="code/index">商品分类列表</Link></Menu.Item>
                 <Menu.Item key="3"><Link to="category/index">收藏列表</Link></Menu.Item>
-                <Menu.Item key="4">品牌列表</Menu.Item>
+                <Menu.Item key="4"><Link to="admin/index">品牌列表</Link></Menu.Item>
                 <Menu.Item key="13">品牌分类列表</Menu.Item>
                 <Menu.Item key="14">品牌代理申请列表</Menu.Item>
               </SubMenu>

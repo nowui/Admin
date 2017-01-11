@@ -132,7 +132,7 @@ class CategoryTree extends Component {
     }];
 
     return (
-      <Modal title={this.state.category_name} maskClosable={false} width={constant.detail_width}
+      <Modal title={this.state.category_name} maskClosable={false} width={constant.detail_width} zIndex={9998}
              visible={this.props.is_tree} onCancel={this.handleCancel.bind(this)}
              footer={[
                <Button key="back" type="ghost" size="default" icon="cross-circle"
@@ -148,7 +148,9 @@ class CategoryTree extends Component {
                     onClick={this.handleSave.bind(this, this.state.category_id)}>{constant.save}</Button>
           </Col>
         </Row>
-        <Table className={style.layoutContentHeaderTable} expandedRowKeys={this.state.expandedRowKeys} onExpand={this.handleExpand.bind(this)} columns={columns} dataSource={this.state.children} pagination={false}
+        <Table className={style.layoutContentHeaderTable} expandedRowKeys={this.state.expandedRowKeys}
+               onExpand={this.handleExpand.bind(this)} columns={columns} dataSource={this.state.children}
+               pagination={false}
                scroll={{y: constant.scrollModalHeight()}} size="middle" bordered/>
       </Modal>
     );
