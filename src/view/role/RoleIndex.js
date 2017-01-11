@@ -8,7 +8,6 @@ import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
 
-let toast;
 let request;
 
 class RoleIndex extends Component {
@@ -23,7 +22,6 @@ class RoleIndex extends Component {
   }
 
   componentWillUnmount() {
-    toast();
     request.cancel();
   }
 
@@ -122,6 +120,8 @@ class RoleIndex extends Component {
         role_id: role_id
       },
       success: function (json) {
+        message.success(constant.success);
+
         setTimeout(function () {
           this.handLoad(this.props.role.page_index);
         }.bind(this), constant.timeout);
@@ -147,6 +147,8 @@ class RoleIndex extends Component {
       url: 'role/' + this.props.role.action,
       data: data,
       success: function (json) {
+        message.success(constant.success);
+
         this.handleCancel();
 
         setTimeout(function () {
@@ -180,14 +182,10 @@ class RoleIndex extends Component {
       data: data
     });
 
-    toast = message.loading(constant.load, 0);
-
     return false;
   }
 
   handleFinish() {
-    toast();
-
     this.props.dispatch({
       type: 'role/fetch',
       data: {
@@ -214,7 +212,7 @@ class RoleIndex extends Component {
     const {getFieldDecorator} = this.props.form;
 
     const columns = [{
-      title: '产品名称',
+      title: '名称',
       dataIndex: 'role_name'
     }, {
       width: 90,
@@ -259,12 +257,12 @@ class RoleIndex extends Component {
           <Form className={style.layoutContentHeaderSearch}>
             <Row>
               <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="产品名称">
+                <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="名称">
                   {
                     getFieldDecorator('role_name', {
                       initialValue: ''
                     })(
-                      <Input type="text" placeholder="请输入产品名称" className={style.formItemInput}/>
+                      <Input type="text" placeholder="请输入名称" className={style.formItemInput}/>
                     )
                   }
                 </FormItem>
@@ -275,7 +273,10 @@ class RoleIndex extends Component {
               </Col>
             </Row>
           </Form>
-          <Table columns={columns} dataSource={this.props.role.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <Table className={style.layoutContentHeaderTable}
+                 loading={this.props.role.is_load && !this.props.role.is_detail} columns={columns}
+                 dataSource={this.props.role.list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
+                 bordered/>
           <RoleDetail is_load={this.props.role.is_load}
                       is_detail={this.props.role.is_detail}
                       handleSubmit={this.handleSubmit.bind(this)}

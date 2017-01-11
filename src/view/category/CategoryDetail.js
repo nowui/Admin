@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Form, Row, Col, Button, Input, InputNumber} from 'antd';
+import {Modal, Form, Row, Col, Spin, Button, Input, InputNumber} from 'antd';
 
 import constant from '../../constant/constant';
 import style from '../style.css';
@@ -48,80 +48,82 @@ class CategoryDetail extends Component {
                        onClick={this.handleSubmit.bind(this)}>确定</Button>
              ]}
       >
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类名称">
-              {
-                getFieldDecorator('category_name', {
-                  rules: [{
-                    required: true,
-                    message: constant.required
-                  }],
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder={constant.placeholder + '分类名称'}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类键值">
-              {
-                getFieldDecorator('category_key', {
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder={constant.placeholder + '分类键值'}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类数值">
-              {
-                getFieldDecorator('category_value', {
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder={constant.placeholder + '分类数值'}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类描述">
-              {
-                getFieldDecorator('category_description', {
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder={constant.placeholder + '分类描述'}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类排序">
-              {
-                getFieldDecorator('category_sort', {
-                  rules: [{
-                    required: true,
-                    message: constant.required
-                  }],
-                  initialValue: 0
-                })(
-                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '分类排序'}
-                               min={0} max={999}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
+        <Spin spinning={this.props.is_load}>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类名称">
+                {
+                  getFieldDecorator('category_name', {
+                    rules: [{
+                      required: true,
+                      message: constant.required
+                    }],
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '分类名称'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类键值">
+                {
+                  getFieldDecorator('category_key', {
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '分类键值'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类数值">
+                {
+                  getFieldDecorator('category_value', {
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '分类数值'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类描述">
+                {
+                  getFieldDecorator('category_remark', {
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '分类描述'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="分类排序">
+                {
+                  getFieldDecorator('category_sort', {
+                    rules: [{
+                      required: true,
+                      message: constant.required
+                    }],
+                    initialValue: 0
+                  })(
+                    <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '分类排序'}
+                                 min={0} max={999}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+        </Spin>
       </Modal>
     );
   }

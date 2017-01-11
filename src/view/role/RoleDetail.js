@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Form, Row, Col, Button, Input, InputNumber} from 'antd';
+import {Modal, Form, Row, Col, Spin, Button, Input, InputNumber} from 'antd';
 
 import constant from '../../constant/constant';
 import style from '../style.css';
@@ -48,55 +48,56 @@ class RoleDetail extends Component {
                        onClick={this.handleSubmit.bind(this)}>确定</Button>
              ]}
       >
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="名称">
-              {
-                getFieldDecorator('role_name', {
-                  rules: [{
-                    required: true,
-                    message: constant.required
-                  }],
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder={constant.placeholder + '名称'}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="键值">
-              {
-                getFieldDecorator('role_key', {
-                  initialValue: ''
-                })(
-                  <Input type="text" placeholder={constant.placeholder + '键值'}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <FormItem {...constant.formItemLayoutDetail} className={style.formItem} label="排序">
-              {
-                getFieldDecorator('role_sort', {
-                  rules: [{
-                    type: 'number',
-                    required: true,
-                    message: constant.required
-                  }],
-                  initialValue: 0
-                })(
-                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '排序'}
-                               min={0} max={999}/>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
+        <Spin spinning={this.props.is_load}>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="角色名称">
+                {
+                  getFieldDecorator('role_name', {
+                    rules: [{
+                      required: true,
+                      message: constant.required
+                    }],
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '角色名称'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="角色键值">
+                {
+                  getFieldDecorator('role_key', {
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '角色键值'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="角色排序">
+                {
+                  getFieldDecorator('role_sort', {
+                    rules: [{
+                      required: true,
+                      message: constant.required
+                    }],
+                    initialValue: 0
+                  })(
+                    <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '角色排序'}
+                                 min={0} max={999}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+          </Row>
+        </Spin>
       </Modal>
     );
   }

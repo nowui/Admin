@@ -10,6 +10,7 @@ export default {
     is_tree: false,
     action: '',
     category_id: '',
+    parent_id: '',
     category_name: '',
     list: [],
     total: 0,

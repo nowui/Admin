@@ -1,6 +1,8 @@
 import fetch from 'dva/fetch';
 import {message} from 'antd';
 
+import constant from '../constant/constant';
+
 const operation = (promise) => {
   let hasCanceled_ = false;
   const wrappedPromise = new Promise((resolve, reject) => {
@@ -42,13 +44,13 @@ export default function http(config) {
           if (json.code == 200) {
             config.success(json);
           } else {
-            message.error("网络出现问题");
+            message.error(constant.error);
           }
 
           config.complete();
         })
       }).catch(function (error) {
-        message.error("网络出现问题");
+        message.error(constant.error);
 
         config.complete();
       });

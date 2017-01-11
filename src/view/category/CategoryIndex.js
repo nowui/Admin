@@ -9,7 +9,6 @@ import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
 
-let toast;
 let request;
 
 class CategoryIndex extends Component {
@@ -24,7 +23,6 @@ class CategoryIndex extends Component {
   }
 
   componentWillUnmount() {
-    toast();
     request.cancel();
   }
 
@@ -32,16 +30,16 @@ class CategoryIndex extends Component {
     let category_name = this.props.form.getFieldValue('category_name');
     let page_index = 1;
 
-    this.handList(category_name, page_index);
+    this.handleList(category_name, page_index);
   }
 
-  handLoad(page_index) {
+  handleLoad(page_index) {
     let category_name = this.props.category.category_name;
 
-    this.handList(category_name, page_index);
+    this.handleList(category_name, page_index);
   }
 
-  handList(category_name, page_index) {
+  handleList(category_name, page_index) {
     if (this.handleStart({
         is_load: true
       })) {
@@ -76,17 +74,20 @@ class CategoryIndex extends Component {
     }).post();
   }
 
-  handSave() {
+  handleSave(parent_id) {
     this.props.dispatch({
       type: 'category/fetch',
       data: {
         is_detail: true,
-        action: 'save'
+        action: 'save',
+        parent_id: parent_id
       }
     });
+
+    console.log(parent_id);
   }
 
-  handUpdate(category_id) {
+  handleUpdate(category_id) {
     if (this.handleStart({
         is_load: true,
         is_detail: true,
@@ -110,7 +111,7 @@ class CategoryIndex extends Component {
     }).post();
   }
 
-  handTree(category_id) {
+  handleTree(category_id) {
     if (this.handleStart({
         is_load: true,
         is_tree: true,
@@ -120,12 +121,12 @@ class CategoryIndex extends Component {
     }
 
     request = http({
-      url: 'category/find',
+      url: 'category/admin/tree/list',
       data: {
         category_id: category_id
       },
       success: function (json) {
-        this.refs.detail.setFieldsValue(json.data);
+        this.refs.tree.setFieldsValue(json.data);
       }.bind(this),
       complete: function () {
         this.handleFinish();
@@ -146,8 +147,14 @@ class CategoryIndex extends Component {
         category_id: category_id
       },
       success: function (json) {
+        message.success(constant.success);
+
         setTimeout(function () {
-          this.handLoad(this.props.category.page_index);
+          if (this.props.category.is_tree) {
+            this.handleTree(this.refs.tree.state.category_id);
+          } else {
+            this.handleLoad(this.props.category.page_index);
+          }
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -167,14 +174,24 @@ class CategoryIndex extends Component {
       data.category_id = this.props.category.category_id;
     }
 
+    if (this.props.category.action == 'save' && this.props.category.is_tree) {
+      data.parent_id = this.props.category.parent_id;
+    }
+
     request = http({
       url: 'category/' + this.props.category.action,
       data: data,
       success: function (json) {
+        message.success(constant.success);
+
         this.handleCancel();
 
         setTimeout(function () {
-          this.handLoad(this.props.category.page_index);
+          if (this.props.category.is_tree) {
+            this.handleTree(this.refs.tree.state.category_id);
+          } else {
+            this.handleLoad(this.props.category.page_index);
+          }
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -201,6 +218,8 @@ class CategoryIndex extends Component {
         is_tree: false
       }
     });
+
+    this.refs.tree.resetFields();
   }
 
   handleStart(data) {
@@ -213,14 +232,10 @@ class CategoryIndex extends Component {
       data: data
     });
 
-    toast = message.loading(constant.load, 0);
-
     return false;
   }
 
   handleFinish() {
-    toast();
-
     this.props.dispatch({
       type: 'category/fetch',
       data: {
@@ -238,7 +253,7 @@ class CategoryIndex extends Component {
     });
 
     setTimeout(function () {
-      this.handLoad(page_index);
+      this.handleLoad(page_index);
     }.bind(this), constant.timeout);
   }
 
@@ -250,17 +265,26 @@ class CategoryIndex extends Component {
       title: '名称',
       dataIndex: 'category_name'
     }, {
+      width: 150,
+      title: '键值',
+      dataIndex: 'category_key'
+    }, {
+      width: 100,
+      title: '排序',
+      dataIndex: 'category_sort'
+    }, {
       width: 135,
       title: constant.action,
       dataIndex: '',
       render: (text, record, index) => (
         <span>
-          <a onClick={this.handUpdate.bind(this, record.category_id)}>{constant.update}</a>
+          <a onClick={this.handleUpdate.bind(this, record.category_id)}>{constant.update}</a>
           <span className={style.divider}/>
-          <a onClick={this.handTree.bind(this, record.category_id)}>树型</a>
+          <a onClick={this.handleTree.bind(this, record.category_id)}>树形</a>
           <span className={style.divider}/>
           <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
-                      cancelText={constant.popconfirm_cancel} onConfirm={this.handleDelete.bind(this, record.category_id)}>
+                      cancelText={constant.popconfirm_cancel}
+                      onConfirm={this.handleDelete.bind(this, record.category_id)}>
             <a>{constant.delete}</a>
           </Popconfirm>
         </span>
@@ -273,7 +297,7 @@ class CategoryIndex extends Component {
       pageSize: this.props.category.page_size,
       showSizeChanger: true,
       onShowSizeChange: this.handleChangeSize.bind(this),
-      onChange: this.handLoad.bind(this)
+      onChange: this.handleLoad.bind(this)
     };
 
     return (
@@ -288,7 +312,7 @@ class CategoryIndex extends Component {
                       loading={this.props.category.is_load}
                       onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
               <Button type="primary" icon="plus-circle" size="default"
-                      onClick={this.handSave.bind(this)}>{constant.save}</Button>
+                      onClick={this.handleSave.bind(this, '')}>{constant.save}</Button>
             </Col>
           </Row>
           <Form className={style.layoutContentHeaderSearch}>
@@ -310,17 +334,22 @@ class CategoryIndex extends Component {
               </Col>
             </Row>
           </Form>
-          <Table className={style.layoutContentHeaderTable} columns={columns} dataSource={this.props.category.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <Table className={style.layoutContentHeaderTable}
+                 loading={this.props.category.is_load && !this.props.category.is_detail} columns={columns}
+                 dataSource={this.props.category.list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
+                 bordered/>
+          <CategoryTree is_load={this.props.category.is_load}
+                        is_tree={this.props.category.is_tree}
+                        handleSave={this.handleSave.bind(this)}
+                        handleUpdate={this.handleUpdate.bind(this)}
+                        handleDelete={this.handleDelete.bind(this)}
+                        handleCancel={this.handleTreeCancel.bind(this)}
+                        ref="tree"/>
           <CategoryDetail is_load={this.props.category.is_load}
                           is_detail={this.props.category.is_detail}
                           handleSubmit={this.handleSubmit.bind(this)}
                           handleCancel={this.handleCancel.bind(this)}
                           ref="detail"/>
-          <CategoryTree is_load={this.props.category.is_load}
-                        is_tree={this.props.category.is_tree}
-                        handleSubmit={this.handleSubmit.bind(this)}
-                        handleCancel={this.handleTreeCancel.bind(this)}
-                        />
         </div>
       </QueueAnim>
     );

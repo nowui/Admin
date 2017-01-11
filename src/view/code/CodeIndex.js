@@ -268,7 +268,7 @@ class CodeIndex extends Component {
               </Col>
             </Row>
           </Form>
-          <Table columns={columns} dataSource={this.props.code.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <Table className={style.layoutContentHeaderTable} columns={columns} dataSource={this.props.code.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
         </div>
       </QueueAnim>
     );

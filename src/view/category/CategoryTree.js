@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Row, Col, Button, Table} from 'antd';
+import {Modal, Row, Col, Button, Table, Popconfirm} from 'antd';
 
 import constant from '../../constant/constant';
 import style from '../style.css';
@@ -8,7 +8,12 @@ class CategoryTree extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {
+      category_id: '',
+      category_name: '',
+      children: [],
+      expandedRowKeys: []
+    }
   }
 
   componentDidMount() {
@@ -19,24 +24,76 @@ class CategoryTree extends Component {
 
   }
 
-  handleSubmit() {
-    this.props.form.validateFields((errors, values) => {
-      if (!!errors) {
-        return;
-      }
+  setFieldsValue(data) {
+    let expandedRowKeys = this.checkList(data.children);
 
-      this.props.handleSubmit(values);
+    this.setState({
+      category_id: data.category_id,
+      category_name: data.category_name,
+      children: data.children,
+      expandedRowKeys: expandedRowKeys
     });
   }
 
-  handSave() {
-    this.props.dispatch({
-      type: 'category/fetch',
-      data: {
-        is_detail: true,
-        action: 'save'
+  resetFields() {
+    setTimeout(function () {
+      this.setState({
+        category_id: '',
+        category_name: '',
+        children: [],
+        expandedRowKeys: []
+      });
+    }.bind(this), constant.timeout);
+  }
+
+  checkList(list) {
+    let expandedRowKeys = [];
+
+    for (let i = 0; i < list.length; i++) {
+      expandedRowKeys.push(list[i].category_id);
+
+      if (list[i].children) {
+        expandedRowKeys = expandedRowKeys.concat(this.checkList(list[i].children));
       }
+    }
+
+    return expandedRowKeys;
+  }
+
+  handleExpand(expanded, record) {
+    let array = this.state.expandedRowKeys;
+
+    if (expanded) {
+      array.push(record.category_id);
+    } else {
+      let index = -1;
+
+      for (let i = 0; i < array.length; i++) {
+        if (record.category_id == array[i]) {
+          index = i;
+
+          break;
+        }
+      }
+
+      array.splice(index, 1);
+    }
+
+    this.setState({
+      expandedRowKeys: array
     });
+  }
+
+  handleSave(parent_id) {
+    this.props.handleSave(parent_id);
+  }
+
+  handleUpdate(category_id) {
+    this.props.handleUpdate(category_id);
+  }
+
+  handleDelete(category_id) {
+    this.props.handleDelete(category_id);
   }
 
   handleCancel() {
@@ -45,82 +102,41 @@ class CategoryTree extends Component {
 
   render() {
     const columns = [{
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '40%',
+      title: '名称',
+      dataIndex: 'category_name'
     }, {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      width: '30%',
+      width: 150,
+      title: '键值',
+      dataIndex: 'category_key'
     }, {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      width: '30%',
-    }];
-
-    const data = [{
-      key: 1,
-      name: 'John Brown sr.',
-      age: 60,
-      address: 'New York No. 1 Lake Park',
-      children: [{
-        key: 11,
-        name: 'John Brown',
-        age: 42,
-        address: 'New York No. 2 Lake Park',
-      }, {
-        key: 12,
-        name: 'John Brown jr.',
-        age: 30,
-        address: 'New York No. 3 Lake Park',
-        children: [{
-          key: 121,
-          name: 'Jimmy Brown',
-          age: 16,
-          address: 'New York No. 3 Lake Park',
-        }],
-      }, {
-        key: 13,
-        name: 'Jim Green sr.',
-        age: 72,
-        address: 'London No. 1 Lake Park',
-        children: [{
-          key: 131,
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 2 Lake Park',
-          children: [{
-            key: 1311,
-            name: 'Jim Green jr.',
-            age: 25,
-            address: 'London No. 3 Lake Park',
-          }, {
-            key: 1312,
-            name: 'Jimmy Green sr.',
-            age: 18,
-            address: 'London No. 4 Lake Park',
-          }],
-        }],
-      }],
+      width: 100,
+      title: '排序',
+      dataIndex: 'category_sort'
     }, {
-      key: 2,
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
+      width: 135,
+      title: constant.action,
+      dataIndex: '',
+      render: (text, record, index) => (
+        <span>
+          <a onClick={this.handleSave.bind(this, record.category_id)}>{constant.save}</a>
+          <span className={style.divider}/>
+          <a onClick={this.handleUpdate.bind(this, record.category_id)}>{constant.update}</a>
+          <span className={style.divider}/>
+          <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
+                      cancelText={constant.popconfirm_cancel}
+                      onConfirm={this.handleDelete.bind(this, record.category_id)}>
+            <a>{constant.delete}</a>
+          </Popconfirm>
+        </span>
+      )
     }];
 
     return (
-      <Modal title={'分类列表'} maskClosable={false} width={constant.detail_width}
+      <Modal title={this.state.category_name} maskClosable={false} width={constant.detail_width}
              visible={this.props.is_tree} onCancel={this.handleCancel.bind(this)}
              footer={[
                <Button key="back" type="ghost" size="default" icon="cross-circle"
-                       onClick={this.handleCancel.bind(this)}>关闭</Button>,
-               <Button key="submit" type="primary" size="default" icon="check-circle"
-                       loading={this.props.is_load}
-                       onClick={this.handleSubmit.bind(this)}>确定</Button>
+                       onClick={this.handleCancel.bind(this)}>关闭</Button>
              ]}
       >
         <Row>
@@ -129,10 +145,11 @@ class CategoryTree extends Component {
           </Col>
           <Col span={16} className={style.layoutContentHeaderMenu}>
             <Button type="primary" icon="plus-circle" size="default"
-                    onClick={this.handSave.bind(this)}>{constant.save}</Button>
+                    onClick={this.handleSave.bind(this, this.state.category_id)}>{constant.save}</Button>
           </Col>
         </Row>
-        <Table className={style.layoutContentHeaderTable} columns={columns} dataSource={data} pagination={false} scroll={{y: constant.scrollModalHeight()}} size="middle" bordered/>
+        <Table className={style.layoutContentHeaderTable} expandedRowKeys={this.state.expandedRowKeys} onExpand={this.handleExpand.bind(this)} columns={columns} dataSource={this.state.children} pagination={false}
+               scroll={{y: constant.scrollModalHeight()}} size="middle" bordered/>
       </Modal>
     );
   }
@@ -141,7 +158,9 @@ class CategoryTree extends Component {
 CategoryTree.propTypes = {
   is_load: React.PropTypes.bool.isRequired,
   is_tree: React.PropTypes.bool.isRequired,
-  handleSubmit: React.PropTypes.func.isRequired,
+  handleSave: React.PropTypes.func.isRequired,
+  handleUpdate: React.PropTypes.func.isRequired,
+  handleDelete: React.PropTypes.func.isRequired,
   handleCancel: React.PropTypes.func.isRequired
 };
 
