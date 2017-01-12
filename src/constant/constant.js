@@ -23,7 +23,7 @@ export default {
   delete: '删除',
   load: '正在加载中..',
   success: '操作成功',
-  error: '网络错误',
+  error: '网络有问题',
   detail_width: 1000,
   popconfirm_title: '您确定要删除该数据吗?',
   popconfirm_ok: '确定',

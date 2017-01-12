@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Form, Row, Col, Spin, Button, Input, InputNumber} from 'antd';
+import {Modal, Form, Row, Col, Spin, Button, Input, Checkbox} from 'antd';
 
 import constant from '../../constant/constant';
 import style from '../style.css';
@@ -8,7 +8,9 @@ class AdminDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {
+      isChange: false
+    }
   }
 
   componentDidMount() {
@@ -25,12 +27,30 @@ class AdminDetail extends Component {
         return;
       }
 
+      if (!this.state.isChange && this.props.action == 'update') {
+        values.user_account = '';
+      }
+
       this.props.handleSubmit(values);
+    });
+  }
+
+  handleChange(e) {
+    this.setState({
+      isChange: e.target.checked
     });
   }
 
   handleCancel() {
     this.props.handleCancel();
+  }
+
+  handleReset() {
+    this.props.form.resetFields();
+
+    this.setState({
+      isChange: false
+    });
   }
 
   render() {
@@ -49,31 +69,18 @@ class AdminDetail extends Component {
              ]}
       >
         <Spin spinning={this.props.is_load}>
-            <Row>
-              <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="名称">
-                  {
-                    getFieldDecorator('admin_name', {
-                      rules: [{
-                        required: true,
-                        message: constant.required
-                      }],
-                      initialValue: ''
-                    })(
-                      <Input type="text" placeholder={constant.placeholder + '名称'}/>
-                    )
-                  }
-                </FormItem>
-              </Col>
-            </Row>
           <Row>
             <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="帐号">
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="名称">
                 {
-                  getFieldDecorator('user_account', {
+                  getFieldDecorator('admin_name', {
+                    rules: [{
+                      required: true,
+                      message: constant.required
+                    }],
                     initialValue: ''
                   })(
-                    <Input type="text" placeholder={constant.placeholder + '帐号'}/>
+                    <Input type="text" placeholder={constant.placeholder + '名称'}/>
                   )
                 }
               </FormItem>
@@ -81,9 +88,41 @@ class AdminDetail extends Component {
           </Row>
           <Row>
             <Col span={8}>
+              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="帐号">
+                {
+                  getFieldDecorator('user_account', {
+                    rules: [{
+                      required: true,
+                      message: constant.required
+                    }],
+                    initialValue: ''
+                  })(
+                    <Input type="text" placeholder={constant.placeholder + '帐号'}/>
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={8} style={{
+              marginLeft: '15px',
+              marginTop: '7px'
+            }}>
+              {
+                this.props.action == 'save' ?
+                  ''
+                  :
+                  <Checkbox checked={this.state.isChange} onChange={this.handleChange.bind(this)}>是否修改</Checkbox>
+              }
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
               <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="密码">
                 {
                   getFieldDecorator('user_password', {
+                    rules: [{
+                      required: this.props.action == 'save',
+                      message: constant.required
+                    }],
                     initialValue: ''
                   })(
                     <Input type="text" placeholder={constant.placeholder + '密码'}/>
@@ -101,10 +140,13 @@ class AdminDetail extends Component {
 AdminDetail.propTypes = {
   is_load: React.PropTypes.bool.isRequired,
   is_detail: React.PropTypes.bool.isRequired,
+  action: React.PropTypes.string.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
   handleCancel: React.PropTypes.func.isRequired
 };
 
-AdminDetail = Form.create({})(AdminDetail);
+AdminDetail = Form.create({
+  withRef: true
+})(AdminDetail);
 
 export default AdminDetail;

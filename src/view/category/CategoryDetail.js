@@ -33,6 +33,10 @@ class CategoryDetail extends Component {
     this.props.handleCancel();
   }
 
+  handleReset() {
+    this.props.form.resetFields();
+  }
+
   render() {
     const FormItem = Form.Item;
     const {getFieldDecorator} = this.props.form;
@@ -136,6 +140,8 @@ CategoryDetail.propTypes = {
   handleCancel: React.PropTypes.func.isRequired
 };
 
-CategoryDetail = Form.create({})(CategoryDetail);
+CategoryDetail = Form.create({
+  withRef: true
+})(CategoryDetail);
 
 export default CategoryDetail;

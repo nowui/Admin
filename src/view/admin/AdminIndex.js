@@ -94,7 +94,7 @@ class AdminIndex extends Component {
     }
 
     request = http({
-      url: 'admin/find',
+      url: 'admin/admin/find',
       data: {
         admin_id: admin_id
       },
@@ -123,7 +123,7 @@ class AdminIndex extends Component {
         message.success(constant.success);
 
         setTimeout(function () {
-            this.handleLoad(this.props.admin.page_index);
+          this.handleLoad(this.props.admin.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -152,7 +152,7 @@ class AdminIndex extends Component {
         this.handleCancel();
 
         setTimeout(function () {
-            this.handleLoad(this.props.admin.page_index);
+          this.handleLoad(this.props.admin.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -169,7 +169,7 @@ class AdminIndex extends Component {
       }
     });
 
-    this.refs.detail.resetFields();
+    this.refs.detail.refs.wrappedComponent.refs.formWrappedComponent.handleReset();
   }
 
   handleStart(data) {
@@ -214,6 +214,10 @@ class AdminIndex extends Component {
     const columns = [{
       title: '名称',
       dataIndex: 'admin_name'
+    }, {
+      width: 150,
+      title: '帐号',
+      dataIndex: 'user_account'
     }, {
       width: 90,
       title: constant.action,
@@ -278,10 +282,11 @@ class AdminIndex extends Component {
                  dataSource={this.props.admin.list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
                  bordered/>
           <AdminDetail is_load={this.props.admin.is_load}
-                      is_detail={this.props.admin.is_detail}
-                      handleSubmit={this.handleSubmit.bind(this)}
-                      handleCancel={this.handleCancel.bind(this)}
-                      ref="detail"/>
+                       is_detail={this.props.admin.is_detail}
+                       action={this.props.admin.action}
+                       handleSubmit={this.handleSubmit.bind(this)}
+                       handleCancel={this.handleCancel.bind(this)}
+                       ref="detail"/>
         </div>
       </QueueAnim>
     );

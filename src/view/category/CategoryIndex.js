@@ -206,7 +206,7 @@ class CategoryIndex extends Component {
       }
     });
 
-    this.refs.detail.resetFields();
+    this.refs.detail.refs.wrappedComponent.refs.formWrappedComponent.handleReset();
   }
 
   handleTreeCancel() {
@@ -217,7 +217,7 @@ class CategoryIndex extends Component {
       }
     });
 
-    this.refs.tree.resetFields();
+    this.refs.tree.handleReset();
   }
 
   handleStart(data) {

@@ -44,7 +44,7 @@ export default function http(config) {
           if (json.code == 200) {
             config.success(json);
           } else {
-            message.error(constant.error);
+            message.error(json.message);
           }
 
           config.complete();

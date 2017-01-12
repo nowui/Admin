@@ -35,17 +35,6 @@ class CategoryTree extends Component {
     });
   }
 
-  resetFields() {
-    setTimeout(function () {
-      this.setState({
-        category_id: '',
-        category_name: '',
-        children: [],
-        expandedRowKeys: []
-      });
-    }.bind(this), constant.timeout);
-  }
-
   checkList(list) {
     let expandedRowKeys = [];
 
@@ -98,6 +87,17 @@ class CategoryTree extends Component {
 
   handleCancel() {
     this.props.handleCancel();
+  }
+
+  handleReset() {
+    setTimeout(function () {
+      this.setState({
+        category_id: '',
+        category_name: '',
+        children: [],
+        expandedRowKeys: []
+      });
+    }.bind(this), constant.timeout);
   }
 
   render() {
