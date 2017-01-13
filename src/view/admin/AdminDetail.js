@@ -69,6 +69,9 @@ class AdminDetail extends Component {
              ]}
       >
         <Spin spinning={this.props.is_load}>
+          {getFieldDecorator('user_id')(
+            <Input type="hidden" />
+          )}
           <Row>
             <Col span={8}>
               <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="名称">
