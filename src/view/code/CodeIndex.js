@@ -1,13 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'dva';
 import QueueAnim from 'rc-queue-anim';
-import {Row, Col, Button, Form, Input, Table, Popconfirm, message} from 'antd';
+import {Row, Col, Button, Form, Input, Table, message} from 'antd';
 
 import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
 
-let toast;
 let request;
 
 class CodeIndex extends Component {
@@ -22,7 +21,6 @@ class CodeIndex extends Component {
   }
 
   componentWillUnmount() {
-    toast();
     request.cancel();
   }
 
@@ -99,7 +97,7 @@ class CodeIndex extends Component {
         table_name: table_name
       },
       success: function (json) {
-
+        message.success(constant.success);
       }.bind(this),
       complete: function () {
         this.handleFinish();
@@ -120,6 +118,8 @@ class CodeIndex extends Component {
         code_id: code_id
       },
       success: function (json) {
+        message.success(constant.success);
+
         setTimeout(function () {
           this.handLoad(this.props.code.page_index);
         }.bind(this), constant.timeout);
@@ -145,6 +145,8 @@ class CodeIndex extends Component {
       url: 'code/' + this.props.code.action,
       data: data,
       success: function (json) {
+        message.success(constant.success);
+
         this.handleCancel();
 
         setTimeout(function () {
@@ -178,14 +180,10 @@ class CodeIndex extends Component {
       data: data
     });
 
-    toast = message.loading(constant.load, 0);
-
     return false;
   }
 
   handleFinish() {
-    toast();
-
     this.props.dispatch({
       type: 'code/fetch',
       data: {
@@ -239,7 +237,7 @@ class CodeIndex extends Component {
         <div key="0">
           <Row className={style.layoutContentHeader}>
             <Col span={8}>
-              <h1>角色列表</h1>
+              <h1>代码生成</h1>
             </Col>
             <Col span={16} className={style.layoutContentHeaderMenu}>
               <Button type="default" icon="search" size="default" className={style.layoutContentHeaderMenuButton}
@@ -268,7 +266,10 @@ class CodeIndex extends Component {
               </Col>
             </Row>
           </Form>
-          <Table className={style.layoutContentHeaderTable} columns={columns} dataSource={this.props.code.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <Table className={style.layoutContentHeaderTable}
+                 loading={this.props.code.is_load && !this.props.code.is_detail} columns={columns}
+                 dataSource={this.props.code.list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
+                 bordered/>
         </div>
       </QueueAnim>
     );

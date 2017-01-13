@@ -22,7 +22,7 @@ class AdminIndex extends Component {
   }
 
   componentWillUnmount() {
-    request.cancel();
+    this.handleReset();
   }
 
   handleSearch() {
@@ -71,6 +71,19 @@ class AdminIndex extends Component {
         this.handleFinish();
       }.bind(this)
     }).post();
+  }
+
+  handleChangeSize(page_index, page_size) {
+    this.props.dispatch({
+      type: 'admin/fetch',
+      data: {
+        page_size: page_size
+      }
+    });
+
+    setTimeout(function () {
+      this.handleLoad(page_index);
+    }.bind(this), constant.timeout);
   }
 
   handleSave() {
@@ -194,17 +207,15 @@ class AdminIndex extends Component {
     });
   }
 
-  handleChangeSize(page_index, page_size) {
+  handleReset() {
+    request.cancel();
+
     this.props.dispatch({
       type: 'admin/fetch',
       data: {
-        page_size: page_size
+        is_detail: false
       }
     });
-
-    setTimeout(function () {
-      this.handleLoad(page_index);
-    }.bind(this), constant.timeout);
   }
 
   render() {

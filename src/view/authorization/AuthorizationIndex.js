@@ -22,7 +22,7 @@ class AuthorizationIndex extends Component {
   }
 
   componentWillUnmount() {
-    request.cancel();
+    this.handleReset();
   }
 
   handleSearch() {
@@ -71,6 +71,19 @@ class AuthorizationIndex extends Component {
         this.handleFinish();
       }.bind(this)
     }).post();
+  }
+
+  handleChangeSize(page_index, page_size) {
+    this.props.dispatch({
+      type: 'authorization/fetch',
+      data: {
+        page_size: page_size
+      }
+    });
+
+    setTimeout(function () {
+      this.handleLoad(page_index);
+    }.bind(this), constant.timeout);
   }
 
   handleSave() {
@@ -194,17 +207,15 @@ class AuthorizationIndex extends Component {
     });
   }
 
-  handleChangeSize(page_index, page_size) {
+  handleReset() {
+    request.cancel();
+
     this.props.dispatch({
       type: 'authorization/fetch',
       data: {
-        page_size: page_size
+        is_detail: false
       }
     });
-
-    setTimeout(function () {
-      this.handleLoad(page_index);
-    }.bind(this), constant.timeout);
   }
 
   render() {
@@ -212,8 +223,8 @@ class AuthorizationIndex extends Component {
     const {getFieldDecorator} = this.props.form;
 
     const columns = [{
-      title: '名称',
-      dataIndex: 'authorization_token'
+      title: '创建时间',
+      dataIndex: 'authorization_create_time'
     }, {
       width: 90,
       title: constant.action,

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'dva/router';
-import {Layout, Menu, Icon, Row, Col, Badge} from 'antd';
+import {Layout, Menu, Icon, Badge} from 'antd';
 
 import database from '../util/database';
 import style from './style.css';
@@ -10,12 +10,29 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      collapsed: false
+      collapsed: false,
+      openKeys: [],
+      selectedKeys: []
     }
   }
 
   componentDidMount() {
-    console.log(database.getMenu());
+    for (let i = 0; i < database.getMenu().length; i++) {
+      for (let k = 0; k < database.getMenu()[i].children.length; k++) {
+        if (database.getMenu()[i].children[k].category_value == '/' + this.props.routes[2].path) {
+          this.setState({
+            openKeys: [database.getMenu()[i].category_id],
+            selectedKeys: [database.getMenu()[i].children[k].category_id]
+          });
+
+          break
+        }
+      }
+    }
+  }
+
+  componentWillUnmount() {
+
   }
 
   handleToggle() {
@@ -24,8 +41,16 @@ class Main extends Component {
     });
   }
 
-  handleClick() {
+  handleClick(item) {
+    this.setState({
+      selectedKeys: [item.key]
+    });
+  }
 
+  handleChange(item) {
+    this.setState({
+      openKeys: item
+    });
   }
 
   render() {
@@ -43,46 +68,30 @@ class Main extends Component {
             <div className={style.logo}><h1>{this.state.collapsed ? '红' : '红萝梦'}</h1></div>
             <Menu
               theme="dark"
-              defaultOpenKeys={['sub1']}
-              selectedKeys={['1']}
               mode={this.state.collapsed ? 'vertical' : 'inline'}
+              openKeys={this.state.openKeys}
+              selectedKeys={this.state.selectedKeys}
               onClick={this.handleClick.bind(this)}
+              onOpenChange={this.handleChange.bind(this)}
             >
               {
-
+                database.getMenu().map(function (item) {
+                  return (
+                    <SubMenu key={item.category_id}
+                             title={<span><Icon
+                               className={'anticon ' + item.category_remark}/>{item.category_name}</span>}>
+                      {
+                        item.children.map(function (children) {
+                          return (
+                            <Menu.Item key={children.category_id}><Link
+                              to={children.category_value}>{children.category_name}</Link></Menu.Item>
+                          )
+                        })
+                      }
+                    </SubMenu>
+                  )
+                })
               }
-              <SubMenu key="sub2" title={<span><Icon type="appstore"/><span className="nav-text">订单管理</span></span>}>
-                <Menu.Item key="5">Option 5</Menu.Item>
-                <Menu.Item key="6">Option 6</Menu.Item>
-              </SubMenu>
-              {/*<SubMenu key="sub1" title={<span><Icon type="mail"/><span className="nav-text">商品管理</span></span>}>*/}
-                {/*<Menu.Item key="1"><Link to="role/index">商品列表</Link></Menu.Item>*/}
-                {/*<Menu.Item key="2"><Link to="code/index">商品分类列表</Link></Menu.Item>*/}
-                {/*<Menu.Item key="3"><Link to="category/index">收藏列表</Link></Menu.Item>*/}
-                {/*<Menu.Item key="4"><Link to="admin/index">品牌列表</Link></Menu.Item>*/}
-                {/*<Menu.Item key="13"><Link to="authorization/index">品牌分类列表</Link></Menu.Item>*/}
-                {/*<Menu.Item key="14">品牌代理申请列表</Menu.Item>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub2" title={<span><Icon type="appstore"/><span className="nav-text">订单管理</span></span>}>*/}
-                {/*<Menu.Item key="5">Option 5</Menu.Item>*/}
-                {/*<Menu.Item key="6">Option 6</Menu.Item>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub4" title={<span><Icon type="setting"/><span className="nav-text">红圈管理</span></span>}>*/}
-                {/*<Menu.Item key="9">Option 9</Menu.Item>*/}
-                {/*<Menu.Item key="10">Option 10</Menu.Item>*/}
-                {/*<Menu.Item key="11">Option 11</Menu.Item>*/}
-                {/*<Menu.Item key="12">Option 12</Menu.Item>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub5" title={<span><Icon type="setting"/><span className="nav-text">活动管理</span></span>}>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub6" title={<span><Icon type="setting"/><span className="nav-text">页面管理</span></span>}>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub7" title={<span><Icon type="setting"/><span className="nav-text">会员管理</span></span>}>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub8" title={<span><Icon type="setting"/><span className="nav-text">权限管理</span></span>}>*/}
-              {/*</SubMenu>*/}
-              {/*<SubMenu key="sub9" title={<span><Icon type="setting"/><span className="nav-text">系统管理</span></span>}>*/}
-              {/*</SubMenu>*/}
             </Menu>
           </div>
         </Sider>

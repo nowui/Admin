@@ -3,13 +3,17 @@ const database = {
     return localStorage.getItem("token");
   },
   setToken(token) {
+    localStorage.removeItem("token");
+
     localStorage.setItem("token", token);
   },
   getMenu() {
-    return localStorage.getItem("menu");
+    return JSON.parse(localStorage.getItem("menu"));
   },
   setMenu(menu) {
-    localStorage.setItem("menu", menu);
+    localStorage.removeItem("menu");
+
+    localStorage.setItem("menu", JSON.stringify(menu));
   }
 };
 

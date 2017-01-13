@@ -22,7 +22,7 @@ class RoleIndex extends Component {
   }
 
   componentWillUnmount() {
-    request.cancel();
+    this.handleReset();
   }
 
   handleSearch() {
@@ -71,6 +71,19 @@ class RoleIndex extends Component {
         this.handleFinish();
       }.bind(this)
     }).post();
+  }
+
+  handleChangeSize(page_index, page_size) {
+    this.props.dispatch({
+      type: 'role/fetch',
+      data: {
+        page_size: page_size
+      }
+    });
+
+    setTimeout(function () {
+      this.handLoad(page_index);
+    }.bind(this), constant.timeout);
   }
 
   handSave() {
@@ -194,17 +207,15 @@ class RoleIndex extends Component {
     });
   }
 
-  handleChangeSize(page_index, page_size) {
+  handleReset() {
+    request.cancel();
+
     this.props.dispatch({
       type: 'role/fetch',
       data: {
-        page_size: page_size
+        is_detail: false
       }
     });
-
-    setTimeout(function () {
-      this.handLoad(page_index);
-    }.bind(this), constant.timeout);
   }
 
   render() {

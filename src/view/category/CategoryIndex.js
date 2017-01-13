@@ -23,7 +23,7 @@ class CategoryIndex extends Component {
   }
 
   componentWillUnmount() {
-    request.cancel();
+    this.handleReset();
   }
 
   handleSearch() {
@@ -72,6 +72,19 @@ class CategoryIndex extends Component {
         this.handleFinish();
       }.bind(this)
     }).post();
+  }
+
+  handleChangeSize(page_index, page_size) {
+    this.props.dispatch({
+      type: 'category/fetch',
+      data: {
+        page_size: page_size
+      }
+    });
+
+    setTimeout(function () {
+      this.handleLoad(page_index);
+    }.bind(this), constant.timeout);
   }
 
   handleSave(parent_id) {
@@ -242,17 +255,16 @@ class CategoryIndex extends Component {
     });
   }
 
-  handleChangeSize(page_index, page_size) {
+  handleReset() {
+    request.cancel();
+
     this.props.dispatch({
       type: 'category/fetch',
       data: {
-        page_size: page_size
+        is_detail: false,
+        is_tree: false
       }
     });
-
-    setTimeout(function () {
-      this.handleLoad(page_index);
-    }.bind(this), constant.timeout);
   }
 
   render() {
