@@ -9,26 +9,29 @@ class Main extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      collapsed: false,
-      openKeys: [],
-      selectedKeys: []
-    }
-  }
+    let open_key = [];
+    let selected_key = [];
 
-  componentDidMount() {
     for (let i = 0; i < database.getMenu().length; i++) {
       for (let k = 0; k < database.getMenu()[i].children.length; k++) {
         if (database.getMenu()[i].children[k].category_value == '/' + this.props.routes[2].path) {
-          this.setState({
-            openKeys: [database.getMenu()[i].category_id],
-            selectedKeys: [database.getMenu()[i].children[k].category_id]
-          });
+          open_key = [database.getMenu()[i].category_id];
+          selected_key = [database.getMenu()[i].children[k].category_id];
 
           break
         }
       }
     }
+
+    this.state = {
+      collapsed: false,
+      openKeys: open_key,
+      selectedKeys: selected_key
+    }
+  }
+
+  componentDidMount() {
+
   }
 
   componentWillUnmount() {
@@ -69,17 +72,16 @@ class Main extends Component {
             <Menu
               theme="dark"
               mode={this.state.collapsed ? 'vertical' : 'inline'}
-              openKeys={this.state.openKeys}
-              selectedKeys={this.state.selectedKeys}
+              defaultOpenKeys={this.state.openKeys}
+              defaultSelectedKeys={this.state.selectedKeys}
               onClick={this.handleClick.bind(this)}
-              onOpenChange={this.handleChange.bind(this)}
             >
               {
                 database.getMenu().map(function (item) {
                   return (
                     <SubMenu key={item.category_id}
                              title={<span><Icon
-                               className={'anticon ' + item.category_remark}/>{item.category_name}</span>}>
+                               className={'anticon ' + item.category_remark}/><span className="nav-text">{item.category_name}</span></span>}>
                       {
                         item.children.map(function (children) {
                           return (

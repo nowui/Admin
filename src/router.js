@@ -12,8 +12,8 @@ import AuthorizationIndex from './view/authorization/AuthorizationIndex';
 function RouterConfig({history}) {
   return (
     <Router history={history}>
-      <Route path="/" ignoreScrollBehavior>
-        <IndexRedirect to="role/index"/>
+      <Route path="/">
+        <IndexRedirect to="category/index"/>
         <Route path="login" component={Login}/>
         <Route component={Main}>
           <Route path="code/index" component={CodeIndex}/>
