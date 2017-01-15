@@ -11,9 +11,18 @@ import AdminIndex from './view/admin/AdminIndex';
 import AuthorizationIndex from './view/authorization/AuthorizationIndex';
 
 function RouterConfig({history}) {
+
+  const validate = function (next, replace, callback) {
+    // if (next.location.pathname != '/login') {
+    //   replace('/login');
+    // }
+
+    callback();
+  };
+
   return (
     <Router history={history}>
-      <Route path="/">
+      <Route path="/" onEnter={validate}>
         <IndexRedirect to="category/index"/>
         <Route path="login" component={Login}/>
         <Route component={Main}>

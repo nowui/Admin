@@ -938,9 +938,7 @@ class DashboardIndex extends Component {
           <Row className={style.marginTop}>
             <Col span={16}>
               <div className={style.boxes} style={{
-                position: 'absolute',
-                left: '0px',
-                right: '15px',
+                marginRight: '15px',
                 padding: '15px 15px 0px 15px'
               }}>
                 <h3>销售走势</h3>

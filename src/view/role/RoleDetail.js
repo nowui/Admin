@@ -49,54 +49,45 @@ class RoleDetail extends Component {
              ]}
       >
         <Spin spinning={this.props.is_load}>
-          <Row>
-            <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="角色名称">
-                {
-                  getFieldDecorator('role_name', {
-                    rules: [{
-                      required: true,
-                      message: constant.required
-                    }],
-                    initialValue: ''
-                  })(
-                    <Input type="text" placeholder={constant.placeholder + '角色名称'}/>
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="角色键值">
-                {
-                  getFieldDecorator('role_key', {
-                    initialValue: ''
-                  })(
-                    <Input type="text" placeholder={constant.placeholder + '角色键值'}/>
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="角色排序">
-                {
-                  getFieldDecorator('role_sort', {
-                    rules: [{
-                      required: true,
-                      message: constant.required
-                    }],
-                    initialValue: 0
-                  })(
-                    <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '角色排序'}
-                                 min={0} max={999}/>
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="角色名称">
+            {
+              getFieldDecorator('role_name', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '角色名称'}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="角色键值">
+            {
+              getFieldDecorator('role_key', {
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '角色键值'}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="角色排序">
+            {
+              getFieldDecorator('role_sort', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: 0
+              })(
+                <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '角色排序'}
+                             min={0} max={999}/>
+              )
+            }
+          </FormItem>
         </Spin>
       </Modal>
     );

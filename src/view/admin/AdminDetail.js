@@ -70,70 +70,56 @@ class AdminDetail extends Component {
       >
         <Spin spinning={this.props.is_load}>
           {getFieldDecorator('user_id')(
-            <Input type="hidden" />
+            <Input type="hidden"/>
           )}
-          <Row>
-            <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="名称">
-                {
-                  getFieldDecorator('admin_name', {
-                    rules: [{
-                      required: true,
-                      message: constant.required
-                    }],
-                    initialValue: ''
-                  })(
-                    <Input type="text" placeholder={constant.placeholder + '名称'}/>
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="帐号">
-                {
-                  getFieldDecorator('user_account', {
-                    rules: [{
-                      required: true,
-                      message: constant.required
-                    }],
-                    initialValue: ''
-                  })(
-                    <Input type="text" placeholder={constant.placeholder + '帐号'}/>
-                  )
-                }
-              </FormItem>
-            </Col>
-            <Col span={8} style={{
-              marginLeft: '15px',
-              marginTop: '7px'
-            }}>
-              {
-                this.props.action == 'save' ?
-                  ''
-                  :
-                  <Checkbox checked={this.state.isChange} onChange={this.handleChange.bind(this)}>是否修改</Checkbox>
-              }
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="密码">
-                {
-                  getFieldDecorator('user_password', {
-                    rules: [{
-                      required: this.props.action == 'save',
-                      message: constant.required
-                    }],
-                    initialValue: ''
-                  })(
-                    <Input type="text" placeholder={constant.placeholder + '密码'}/>
-                  )
-                }
-              </FormItem>
-            </Col>
-          </Row>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="名称">
+            {
+              getFieldDecorator('admin_name', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '名称'}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="帐号">
+            {
+              getFieldDecorator('user_account', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '帐号'}/>
+              )
+            }
+            {
+              this.props.action == 'save' ?
+                ''
+                :
+                <Checkbox checked={this.state.isChange} onChange={this.handleChange.bind(this)}>是否修改</Checkbox>
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="密码">
+            {
+              getFieldDecorator('user_password', {
+                rules: [{
+                  required: this.props.action == 'save',
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '密码'}/>
+              )
+            }
+          </FormItem>
         </Spin>
       </Modal>
     );

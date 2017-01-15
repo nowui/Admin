@@ -53,57 +53,48 @@ class AuthorizationDetail extends Component {
              ]}
       >
         <Spin spinning={this.props.is_load}>
-            <Row>
-              <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="授权token">
-                  {
-                    getFieldDecorator('authorization_token', {
-                      rules: [{
-                        required: true,
-                        message: constant.required
-                      }],
-                      initialValue: ''
-                    })(
-                      <Input type="textarea" placeholder={constant.placeholder + '授权token'} rows={12}/>
-                    )
-                  }
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="创建时间">
-                  {
-                    getFieldDecorator('authorization_create_time', {
-                      rules: [{
-                        required: true,
-                        message: constant.required
-                      }],
-                      initialValue: ''
-                    })(
-                      <Input type="text" placeholder={constant.placeholder + '创建时间'}/>
-                    )
-                  }
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="失效时间">
-                  {
-                    getFieldDecorator('authorization_expire_time', {
-                      rules: [{
-                        required: true,
-                        message: constant.required
-                      }],
-                      initialValue: ''
-                    })(
-                      <Input type="text" placeholder={constant.placeholder + '失效时间'}/>
-                    )
-                  }
-                </FormItem>
-              </Col>
-            </Row>
+          <FormItem {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="授权token">
+            {
+              getFieldDecorator('authorization_token', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="textarea" placeholder={constant.placeholder + '授权token'} rows={8}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="创建时间">
+            {
+              getFieldDecorator('authorization_create_time', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '创建时间'}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="失效时间">
+            {
+              getFieldDecorator('authorization_expire_time', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '失效时间'}/>
+              )
+            }
+          </FormItem>
         </Spin>
       </Modal>
     );

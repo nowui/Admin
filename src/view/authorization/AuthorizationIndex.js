@@ -136,7 +136,7 @@ class AuthorizationIndex extends Component {
         message.success(constant.success);
 
         setTimeout(function () {
-            this.handleLoad(this.props.authorization.page_index);
+          this.handleLoad(this.props.authorization.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -165,7 +165,7 @@ class AuthorizationIndex extends Component {
         this.handleCancel();
 
         setTimeout(function () {
-            this.handleLoad(this.props.authorization.page_index);
+          this.handleLoad(this.props.authorization.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -234,7 +234,8 @@ class AuthorizationIndex extends Component {
           <a onClick={this.handleUpdate.bind(this, record.authorization_id)}>{constant.update}</a>
           <span className={style.divider}/>
           <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
-                      cancelText={constant.popconfirm_cancel} onConfirm={this.handleDelete.bind(this, record.authorization_id)}>
+                      cancelText={constant.popconfirm_cancel}
+                      onConfirm={this.handleDelete.bind(this, record.authorization_id)}>
             <a>{constant.delete}</a>
           </Popconfirm>
         </span>
@@ -258,11 +259,9 @@ class AuthorizationIndex extends Component {
               <h1>授权列表</h1>
             </Col>
             <Col span={16} className={style.layoutContentHeaderMenu}>
-              <Button type="default" icon="search" size="default" className={style.layoutContentHeaderMenuButton}
+              <Button type="default" icon="search" size="default"
                       loading={this.props.authorization.is_load}
                       onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
-              <Button type="primary" icon="plus-circle" size="default"
-                      onClick={this.handleSave.bind(this)}>{constant.save}</Button>
             </Col>
           </Row>
           <Form className={style.layoutContentHeaderSearch}>
@@ -286,13 +285,14 @@ class AuthorizationIndex extends Component {
           </Form>
           <Table className={style.layoutContentHeaderTable}
                  loading={this.props.authorization.is_load && !this.props.authorization.is_detail} columns={columns}
-                 dataSource={this.props.authorization.list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
+                 dataSource={this.props.authorization.list} pagination={pagination}
+                 scroll={{y: constant.scrollHeight()}}
                  bordered/>
           <AuthorizationDetail is_load={this.props.authorization.is_load}
-                      is_detail={this.props.authorization.is_detail}
-                      handleSubmit={this.handleSubmit.bind(this)}
-                      handleCancel={this.handleCancel.bind(this)}
-                      ref="detail"/>
+                               is_detail={this.props.authorization.is_detail}
+                               handleSubmit={this.handleSubmit.bind(this)}
+                               handleCancel={this.handleCancel.bind(this)}
+                               ref="detail"/>
         </div>
       </QueueAnim>
     );
