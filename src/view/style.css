@@ -11,6 +11,47 @@
   margin-top: 15px;
 }
 
+.boxes {
+  border: 1px solid #e9e9e9;
+  border-radius: 6px;
+}
+
+.boxesCol {
+  height: 100px;
+}
+
+.boxesCircle {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 60px;
+  height: 60px;
+  line-height: 74px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.boxesIcon {
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.boxesText {
+  position: absolute;
+  width: 200px;
+  top: 23px;
+  left: 90px;
+}
+
+.boxesNumber {
+  position: absolute;
+  width: 200px;
+  top: 40px;
+  left: 90px;
+  font-size: 30px;
+}
+
 .formItem {
   margin-bottom: 15px !important;
 }
@@ -19,14 +60,6 @@
   width: 100% !important;
 }
 
-.logo {
-  background: #333;
-  cursor: pointer;
-  line-height: 60px;
-  text-align: center;
-  color: #ffffff;
-  letter-spacing: 3px;
-}
 .trigger {
   font-size: 20px;
   line-height: 64px;
@@ -35,22 +68,22 @@
   transition: color .3s;
 }
 
-.user {
-  position: absolute;
-  font-size: 20px;
-  top: 18px;
-  right: 118px;
-  color: #595959;
-}
-
 .notification {
   position: absolute;
   font-size: 20px;
   top: 18px;
-  right: 68px;
+  right: 118px;
 }
 
 .notificationMessage {
+  color: #595959;
+}
+
+.user {
+  position: absolute;
+  font-size: 20px;
+  top: 18px;
+  right: 68px;
   color: #595959;
 }
 
@@ -86,7 +119,7 @@
 }
 
 .layoutContent {
-  margin: 20px 17px 0px  17px;
+  margin: 20px 17px 0px 17px;
   padding: 0px 15px 15px 15px;
   background: #ffffff;
 }
@@ -106,8 +139,8 @@
 
 .layoutContentHeaderSearch {
   padding: 15px 15px 0PX 0PX;
-  background: #f8f8f8;
-  border: 1px solid #d9d9d9;
+  background: #f7f7f7;
+  border: 1px solid #e9e9e9;
   border-radius: 6px;
 }
 
@@ -117,6 +150,10 @@
 
 .paddingBottom {
   padding-bottom: 15px;
+}
+
+.marginTop {
+  margin-top: 15px;
 }
 
 .layoutFooter {
@@ -132,8 +169,8 @@
   left: 50%;
   margin: -200px 0 0 -160px;
   width: 320px;
-  height: 200px;
 }
+
 .loginButton {
   width: 100%;
 }

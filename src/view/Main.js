@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'dva/router';
+import {connect} from 'dva';
+import {routerRedux, Link} from 'dva/router';
 import {Layout, Menu, Icon, Badge} from 'antd';
 
 import database from '../util/database';
@@ -50,10 +51,15 @@ class Main extends Component {
     });
   }
 
-  handleChange(item) {
+  handleLogo() {
     this.setState({
-      openKeys: item
+      selectedKeys: []
     });
+
+    this.props.dispatch(routerRedux.push({
+      pathname: '/dashboard/index',
+      query: {}
+    }));
   }
 
   render() {
@@ -64,16 +70,15 @@ class Main extends Component {
       <Layout>
         <Sider
           onCollapse={this.handleToggle.bind(this)}
-          collapsible
           collapsed={this.state.collapsed}
         >
           <div className={this.state.collapsed ? '' : style.layoutSider}>
-            <div className={style.logo}><h1>{this.state.collapsed ? '红' : '红萝梦'}</h1></div>
+            <div className="logo"><h1 onClick={this.handleLogo.bind(this)}>{this.state.collapsed ? '红' : '红萝梦'}</h1></div>
             <Menu
               theme="dark"
               mode={this.state.collapsed ? 'vertical' : 'inline'}
               defaultOpenKeys={this.state.openKeys}
-              defaultSelectedKeys={this.state.selectedKeys}
+              selectedKeys={this.state.selectedKeys}
               onClick={this.handleClick.bind(this)}
             >
               {
@@ -104,10 +109,10 @@ class Main extends Component {
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.handleToggle.bind(this)}
             />
-            <Link to=''><Icon type="user" className={style.user}/></Link>
             <Badge count={5} className={style.notification}>
               <Link to=''><Icon type="notification" className={style.notificationMessage}/></Link>
             </Badge>
+            <Link to=''><Icon type="user" className={style.user}/></Link>
             <Link to='/login'><Icon type="poweroff" className={style.logout}/></Link>
           </Header>
           <Content style={{height: document.documentElement.clientHeight - 60 - 20 - 20}}
@@ -125,4 +130,4 @@ class Main extends Component {
 
 Main.propTypes = {};
 
-export default Main;
+export default connect(({}) => ({}))(Main);

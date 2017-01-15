@@ -2,6 +2,7 @@ import React from 'react';
 import {Router, Route, IndexRedirect} from 'dva/router';
 import Main from './view/Main';
 import Login from './view/Login';
+import DashboardIndex from './view/dashboard/DashboardIndex';
 import CodeIndex from './view/code/CodeIndex';
 import ProductIndex from './view/product/ProductIndex';
 import RoleIndex from './view/role/RoleIndex';
@@ -16,6 +17,7 @@ function RouterConfig({history}) {
         <IndexRedirect to="category/index"/>
         <Route path="login" component={Login}/>
         <Route component={Main}>
+          <Route path="dashboard/index" component={DashboardIndex}/>
           <Route path="code/index" component={CodeIndex}/>
           <Route path="product/index" component={ProductIndex}/>
           <Route path="role/index" component={RoleIndex}/>

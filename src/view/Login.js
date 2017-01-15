@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'dva';
 import {routerRedux} from 'dva/router';
-import {message, Spin, Form, Input, Button} from 'antd';
+import {Card, message, Spin, Form, Input, Button} from 'antd';
 
 import constant from '../constant/constant';
 import database from '../util/database';
@@ -65,7 +65,7 @@ class Login extends Component {
     const {getFieldDecorator} = this.props.form;
 
     return (
-      <div className={style.loginForm}>
+      <Card className={style.loginForm}>
         <Spin spinning={this.state.is_load}>
           <FormItem hasFeedback className={style.formItem}>
             {
@@ -93,12 +93,15 @@ class Login extends Component {
               )
             }
           </FormItem>
-          <FormItem>
+          <FormItem style={{
+            marginBottom: '0px'
+          }}>
             <Button type="primary" htmlType="submit" className={style.loginButton}
+                    loading={this.state.is_load}
                     onClick={this.handleSubmit.bind(this)}>登录系统</Button>
           </FormItem>
         </Spin>
-      </div>
+      </Card>
     );
   }
 }
