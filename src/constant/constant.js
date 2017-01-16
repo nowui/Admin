@@ -18,6 +18,7 @@ export default {
   page_size: 10,
   action: '操作',
   search: '搜索',
+  find: '查看',
   save: '新增',
   update: '修改',
   delete: '删除',

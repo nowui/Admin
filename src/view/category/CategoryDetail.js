@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Form, Row, Col, Spin, Button, Input, InputNumber} from 'antd';
+import {Modal, Form, Spin, Button, Input, InputNumber} from 'antd';
 
 import constant from '../../constant/constant';
 import style from '../style.css';
@@ -42,7 +42,7 @@ class CategoryDetail extends Component {
     const {getFieldDecorator} = this.props.form;
 
     return (
-      <Modal title={'分类表单'} maskClosable={false} width={constant.detail_width} zIndex={9999}
+      <Modal title={'分类表单'} maskClosable={false} width={constant.detail_width} zIndex={2}
              visible={this.props.is_detail} onCancel={this.handleCancel.bind(this)}
              footer={[
                <Button key="back" type="ghost" size="default" icon="cross-circle"

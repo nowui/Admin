@@ -19,6 +19,9 @@ app.model(require('./model/role'));
 app.model(require('./model/category'));
 app.model(require('./model/admin'));
 app.model(require('./model/authorization'));
+app.model(require('./model/attribute'));
+app.model(require('./model/log'));
+app.model(require('./model/resource'));
 
 // 4. Router
 app.router(require('./router'));

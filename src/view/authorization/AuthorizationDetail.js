@@ -54,7 +54,7 @@ class AuthorizationDetail extends Component {
       >
         <Spin spinning={this.props.is_load}>
           <FormItem {...constant.formItemLayoutDetail} className={style.formItem}
-                    style={{width: constant.detail_form_item_width}} label="授权token">
+                    style={{width: constant.detail_form_item_width}} label="授权Token">
             {
               getFieldDecorator('authorization_token', {
                 rules: [{
@@ -63,7 +63,49 @@ class AuthorizationDetail extends Component {
                 }],
                 initialValue: ''
               })(
-                <Input type="textarea" placeholder={constant.placeholder + '授权token'} rows={8}/>
+                <Input type="textarea" placeholder={constant.placeholder + '授权Token'} rows={8}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="平台">
+            {
+              getFieldDecorator('authorization_platform', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '平台'}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="版本">
+            {
+              getFieldDecorator('authorization_version', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + '版本'}/>
+              )
+            }
+          </FormItem>
+          <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
+                    style={{width: constant.detail_form_item_width}} label="IP地址">
+            {
+              getFieldDecorator('authorization_ip_address', {
+                rules: [{
+                  required: true,
+                  message: constant.required
+                }],
+                initialValue: ''
+              })(
+                <Input type="text" placeholder={constant.placeholder + 'IP地址'}/>
               )
             }
           </FormItem>

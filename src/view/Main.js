@@ -62,6 +62,16 @@ class Main extends Component {
     }));
   }
 
+  handleLogout() {
+    database.setToken('');
+    database.setMenu([]);
+
+    this.props.dispatch(routerRedux.push({
+      pathname: '/login',
+      query: {}
+    }));
+  }
+
   render() {
     const {Header, Sider, Content, Footer} = Layout;
     const SubMenu = Menu.SubMenu;
@@ -73,7 +83,8 @@ class Main extends Component {
           collapsed={this.state.collapsed}
         >
           <div className={this.state.collapsed ? '' : style.layoutSider}>
-            <div className="logo"><h1 onClick={this.handleLogo.bind(this)}>{this.state.collapsed ? '红' : '红萝梦'}</h1></div>
+            <div className="logo"><h1 onClick={this.handleLogo.bind(this)}>{this.state.collapsed ? '红' : '红萝梦'}</h1>
+            </div>
             <Menu
               theme="dark"
               mode={this.state.collapsed ? 'vertical' : 'inline'}
@@ -86,7 +97,8 @@ class Main extends Component {
                   return (
                     <SubMenu key={item.category_id}
                              title={<span><Icon
-                               className={'anticon ' + item.category_remark}/><span className="nav-text">{item.category_name}</span></span>}>
+                               className={'anticon ' + item.category_remark}/><span
+                               className="nav-text">{item.category_name}</span></span>}>
                       {
                         item.children.map(function (children) {
                           return (
@@ -113,7 +125,7 @@ class Main extends Component {
               <Link to=''><Icon type="notification" className={style.notificationMessage}/></Link>
             </Badge>
             <Link to=''><Icon type="user" className={style.user}/></Link>
-            <Link to='/login'><Icon type="poweroff" className={style.logout}/></Link>
+            <Link onClick={this.handleLogout.bind(this)}><Icon type="poweroff" className={style.logout}/></Link>
           </Header>
           <Content style={{height: document.documentElement.clientHeight - 60 - 20 - 20}}
                    className={style.layoutContent}>

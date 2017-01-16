@@ -9,23 +9,28 @@ import RoleIndex from './view/role/RoleIndex';
 import CategoryIndex from './view/category/CategoryIndex';
 import AdminIndex from './view/admin/AdminIndex';
 import AuthorizationIndex from './view/authorization/AuthorizationIndex';
+import AttributeIndex from './view/attribute/AttributeIndex';
+import LogIndex from './view/log/LogIndex';
+import ResourceIndex from './view/resource/ResourceIndex';
+
+import database from './util/database';
 
 function RouterConfig({history}) {
 
   const validate = function (next, replace, callback) {
-    // if (next.location.pathname != '/login') {
-    //   replace('/login');
-    // }
+    if (database.getToken() == '' && next.location.pathname != '/login') {
+      replace('/login');
+    }
 
     callback();
   };
 
   return (
     <Router history={history}>
-      <Route path="/" onEnter={validate}>
+      <Route path="/">
         <IndexRedirect to="category/index"/>
         <Route path="login" component={Login}/>
-        <Route component={Main}>
+        <Route component={Main} onEnter={validate}>
           <Route path="dashboard/index" component={DashboardIndex}/>
           <Route path="code/index" component={CodeIndex}/>
           <Route path="product/index" component={ProductIndex}/>
@@ -33,6 +38,9 @@ function RouterConfig({history}) {
           <Route path="category/index" component={CategoryIndex}/>
           <Route path="admin/index" component={AdminIndex}/>
           <Route path="authorization/index" component={AuthorizationIndex}/>
+          <Route path="attribute/index" component={AttributeIndex}/>
+          <Route path="log/index" component={LogIndex}/>
+          <Route path="resource/index" component={ResourceIndex}/>
         </Route>
       </Route>
     </Router>

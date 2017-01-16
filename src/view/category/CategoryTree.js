@@ -122,7 +122,7 @@ class CategoryTree extends Component {
           <span className={style.divider}/>
           <a onClick={this.handleUpdate.bind(this, record.category_id)}>{constant.update}</a>
           <span className={style.divider}/>
-          <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
+          <Popconfirm  zIndex={2} title={constant.popconfirm_title} okText={constant.popconfirm_ok}
                       cancelText={constant.popconfirm_cancel}
                       onConfirm={this.handleDelete.bind(this, record.category_id)}>
             <a>{constant.delete}</a>
@@ -132,7 +132,7 @@ class CategoryTree extends Component {
     }];
 
     return (
-      <Modal title={this.state.category_name} maskClosable={false} width={constant.detail_width} zIndex={9998}
+      <Modal title={this.state.category_name} maskClosable={false} width={constant.detail_width} zIndex={1}
              visible={this.props.is_tree} onCancel={this.handleCancel.bind(this)}
              footer={[
                <Button key="back" type="ghost" size="default" icon="cross-circle"

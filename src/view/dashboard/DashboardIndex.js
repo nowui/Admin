@@ -901,7 +901,7 @@ class DashboardIndex extends Component {
               }}>
                 <Icon type="rocket" className={style.boxesIcon}/>
               </div>
-              <div className={style.boxesText}>待发货订单</div>
+              <h3 className={style.boxesText}>待发货订单</h3>
               <div className={style.boxesNumber}>5</div>
             </Col>
             <Col span={6} className={style.boxesCol}>
@@ -911,7 +911,7 @@ class DashboardIndex extends Component {
               }}>
                 <Icon type="shopping-cart" className={style.boxesIcon}/>
               </div>
-              <div className={style.boxesText}>昨日订单</div>
+              <h3 className={style.boxesText}>昨日订单</h3>
               <div className={style.boxesNumber}>21</div>
             </Col>
             <Col span={6} className={style.boxesCol}>
@@ -921,8 +921,8 @@ class DashboardIndex extends Component {
               }}>
                 <Icon type="pay-circle-o" className={style.boxesIcon}/>
               </div>
-              <div className={style.boxesText}>昨日交易额</div>
-              <div className={style.boxesNumber}>999.99</div>
+              <h3 className={style.boxesText}>昨日交易额</h3>
+              <div className={style.boxesNumber}>0.21</div>
             </Col>
             <Col span={6} className={style.boxesCol}>
               <div className={style.boxesCircle} style={{
@@ -931,7 +931,7 @@ class DashboardIndex extends Component {
               }}>
                 <Icon type="team" className={style.boxesIcon}/>
               </div>
-              <div className={style.boxesText}>昨日用户注册数</div>
+              <h3 className={style.boxesText}>昨日用户注册数</h3>
               <div className={style.boxesNumber}>18</div>
             </Col>
           </Row>

@@ -74,7 +74,7 @@ class Login extends Component {
                   required: true,
                   message: constant.required
                 }],
-                initialValue: ''
+                initialValue: '1'
               })(
                 <Input type="text" placeholder={'用户名'}/>
               )
@@ -87,7 +87,7 @@ class Login extends Component {
                   required: true,
                   message: constant.required
                 }],
-                initialValue: ''
+                initialValue: '1'
               })(
                 <Input type="password" placeholder={'密码'}/>
               )
