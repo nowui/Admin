@@ -1,7 +1,7 @@
 import React from 'react';
 import {Router, Route, IndexRedirect} from 'dva/router';
-import Main from './view/Main';
 import Login from './view/Login';
+import Main from './view/Main';
 import DashboardIndex from './view/dashboard/DashboardIndex';
 import CodeIndex from './view/code/CodeIndex';
 import ProductIndex from './view/product/ProductIndex';

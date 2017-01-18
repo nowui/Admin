@@ -63,16 +63,15 @@
 .trigger {
   font-size: 20px;
   line-height: 64px;
-  padding: 0 16px;
   cursor: pointer;
   transition: color .3s;
 }
 
 .notification {
-  position: absolute;
-  font-size: 20px;
-  top: 18px;
-  right: 118px;
+  position: absolute !important;
+  font-size: 22px;
+  top: 22px;
+  right: 130px;
 }
 
 .notificationMessage {
@@ -81,16 +80,16 @@
 
 .user {
   position: absolute;
-  font-size: 20px;
-  top: 18px;
-  right: 68px;
+  font-size: 22px;
+  top: 22px;
+  right: 70px;
   color: #595959;
 }
 
 .logout {
   position: absolute;
-  font-size: 20px;
-  top: 18px;
+  font-size: 22px;
+  top: 22px;
   right: 18px;
   color: #595959;
 }
@@ -104,7 +103,8 @@
   padding: 0px;
   height: 60px;
   line-height: 60px;
-  background: #ffffff;
+  padding: 0px !important;
+  background: #ffffff !important;
 }
 
 .layoutSider {
